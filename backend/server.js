@@ -3,22 +3,30 @@ const cors = require('cors');
 const { sequelize } = require('./models');
 require('dotenv').config();
 
-console.log("DB config:", process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS);
-
 const app = express();
+
+// ================== MIDDLEWARE ================== //
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// ================== ROUTES ================== //
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/courses', require('./routes/courses'));
 app.use('/api/orders', require('./routes/orders'));
+app.use('/api/payments', require('./routes/payment'));  
 app.use('/api/progress', require('./routes/progress'));
 app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/videos', require('./routes/video'));
+app.use('/api/exams', require('./routes/exams'));
+app.use('/api/questions', require('./routes/questions'));
+app.use('/api/exam-users', require('./routes/userExam'));
 
-//  Thư mục tĩnh để lưu video upload
+// ================== STATIC FILES ================== //
+// Thư mục chứa video upload
 app.use('/uploads', express.static('uploads'));
-sequelize.sync().then(()=>{
-  app.listen(5000, ()=> console.log('Server running on http://localhost:5000'));
+
+// ================== START SERVER ================== //
+const PORT = process.env.PORT || 5000;
+sequelize.sync().then(() => {
+  app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
 });
