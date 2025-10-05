@@ -9,7 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'secret123';
 // 📌 Register
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { username, password, fullName, email } = req.body;
 
     // Kiểm tra email đã tồn tại chưa
     const exists = await User.findOne({ where: { email } });
@@ -21,9 +21,10 @@ router.post('/register', async (req, res) => {
     const hash = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({
-      name,
+      username,
+      password: hash,
+      fullName,
       email,
-      passwordHash: hash,
       role: 'student'  // mặc định student
     });
 
