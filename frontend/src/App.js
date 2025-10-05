@@ -1,27 +1,130 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import CourseDetail from "./pages/CourseDetail";
-import Dashboard from "./pages/Dashboard";
-import Notifications from "./pages/Notifications";
-import Navbar from "./components/Navbar";
+import React, { useState } from "react";
+
+const API_BASE = "http://localhost:5000/api";
+
+const routes = [
+  "auth",
+  "courses",
+  "exams",
+  "notifications",
+  "orders",
+  "payment",
+  "progress",
+  "questions",
+  "userExam",
+  "videos"
+];
 
 function App() {
+  const [route, setRoute] = useState("auth");
+  const [method, setMethod] = useState("GET");
+  const [path, setPath] = useState("");
+  const [body, setBody] = useState("{}");
+  const [response, setResponse] = useState("");
+  const [file, setFile] = useState(null);
+
+  const sendRequest = async () => {
+    try {
+      const url = `${API_BASE}/${route}${path}`;
+      const options = {
+        method,
+        headers: { "Content-Type": "application/json" },
+      };
+
+      if (method !== "GET" && method !== "DELETE") {
+        options.body = body;
+      }
+
+      const res = await fetch(url, options);
+      const data = await res.json();
+      setResponse(JSON.stringify(data, null, 2));
+    } catch (err) {
+      setResponse("Error: " + err.message);
+    }
+  };
+
+  const uploadVideo = async () => {
+    if (!file) {
+      alert("Chọn video trước đã!");
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("video", file);
+
+      const res = await fetch(`${API_BASE}/videos/upload`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      setResponse(JSON.stringify(data, null, 2));
+    } catch (err) {
+      setResponse("Upload error: " + err.message);
+    }
+  };
+
   return (
-    <Router>
-      <Navbar />
-      <div className="container mx-auto p-4">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/courses/:id" element={<CourseDetail />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/notifications" element={<Notifications />} />
-        </Routes>
+    <div style={{ padding: "20px", fontFamily: "Arial" }}>
+      <h2>API Tester</h2>
+
+      <div style={{ border: "1px solid #ccc", padding: "10px", marginBottom: "15px" }}>
+        <h3>Gửi Request API</h3>
+        <div>
+          <label>Route: </label>
+          <select value={route} onChange={(e) => setRoute(e.target.value)}>
+            {routes.map((r) => (
+              <option key={r} value={r}>{r}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label>Method: </label>
+          <select value={method} onChange={(e) => setMethod(e.target.value)}>
+            <option>GET</option>
+            <option>POST</option>
+            <option>PUT</option>
+            <option>DELETE</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Path: </label>
+          <input
+            type="text"
+            placeholder="/login or /1"
+            value={path}
+            onChange={(e) => setPath(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label>Body (JSON): </label>
+          <textarea
+            rows="5"
+            cols="50"
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+          />
+        </div>
+
+        <button onClick={sendRequest} style={{ marginTop: "10px" }}>
+          Send
+        </button>
       </div>
-    </Router>
+
+      <div style={{ border: "1px solid #ccc", padding: "10px" }}>
+        <h3>Upload Video</h3>
+        <input type="file" accept="video/*" onChange={(e) => setFile(e.target.files[0])} />
+        <button onClick={uploadVideo} style={{ marginLeft: "10px" }}>
+          Upload
+        </button>
+      </div>
+
+      <h3>Response:</h3>
+      <pre style={{ background: "#f0f0f0", padding: "10px" }}>{response}</pre>
+    </div>
   );
 }
 
