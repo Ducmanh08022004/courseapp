@@ -22,6 +22,7 @@ function App() {
   const [body, setBody] = useState("{}");
   const [response, setResponse] = useState("");
   const [file, setFile] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
 
   const sendRequest = async () => {
     try {
@@ -37,6 +38,13 @@ function App() {
 
       const res = await fetch(url, options);
       const data = await res.json();
+
+      // Nếu đang login và có token → lưu vào localStorage
+      if (route === "auth" && path === "/login" && data.token) {
+        localStorage.setItem("token", data.token);
+        setToken(data.token);
+      }
+
       setResponse(JSON.stringify(data, null, 2));
     } catch (err) {
       setResponse("Error: " + err.message);
@@ -50,10 +58,16 @@ function App() {
     }
     try {
       const formData = new FormData();
-      formData.append("video", file);
+      formData.append("file", file); // ✅ đúng với upload.single('file')
+      formData.append("title", "My Test Video");
+      formData.append("duration", "120");
+      formData.append("courseId", "1");
 
-      const res = await fetch(`${API_BASE}/videos/upload`, {
+      const res = await fetch(`${API_BASE}/videos`, {
         method: "POST",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"), // ✅ dùng token đã lưu
+        },
         body: formData,
       });
 
@@ -67,6 +81,14 @@ function App() {
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
       <h2>API Tester</h2>
+
+      {/* Hiển thị token hiện tại */}
+      <div style={{ marginBottom: "15px", padding: "10px", border: "1px solid #ccc" }}>
+        <strong>Current Token:</strong>
+        <pre style={{ background: "#f9f9f9", padding: "5px" }}>
+          {token || "Chưa có token, hãy login trước"}
+        </pre>
+      </div>
 
       <div style={{ border: "1px solid #ccc", padding: "10px", marginBottom: "15px" }}>
         <h3>Gửi Request API</h3>

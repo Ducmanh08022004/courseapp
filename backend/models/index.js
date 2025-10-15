@@ -20,7 +20,9 @@ const Course = sequelize.define('Course', {
   courseId: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
   title: DataTypes.STRING,
   description: DataTypes.TEXT,
-  price: DataTypes.DECIMAL(10,2)
+  price: DataTypes.DECIMAL(10,2),
+  createAt : { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+  updateAt : { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
 });
 
 // Video

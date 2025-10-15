@@ -6,7 +6,7 @@ const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secret123';
 
-// 📌 Register
+//  Register
 router.post('/register', async (req, res) => {
   try {
     const { username, password, fullName, email } = req.body;
@@ -38,21 +38,21 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// 📌 Login
+//  Login
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     // Kiểm tra user
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { username } });
     if (!user) {
-      return res.status(400).json({ msg: 'Invalid email or password' });
+      return res.status(400).json({ msg: 'Invalid username or password' });
     }
 
     // Kiểm tra password
-    const ok = await bcrypt.compare(password, user.passwordHash);
+    const ok = await bcrypt.compare(password, user.password);
     if (!ok) {
-      return res.status(400).json({ msg: 'Invalid email or password' });
+      return res.status(400).json({ msg: 'Invalid username or password' });
     }
 
     // Tạo JWT
@@ -64,7 +64,7 @@ router.post('/login', async (req, res) => {
 
     return res.json({
       token,
-      user: { id: user.id, name: user.name, email: user.email, role: user.role }
+      user: { id: user.id, username: user.username, email: user.email, role: user.role }
     });
   } catch (err) {
     console.error('Login error:', err);

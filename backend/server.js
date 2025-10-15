@@ -20,7 +20,7 @@ app.use('/api/videos', require('./routes/video'));
 app.use('/api/exams', require('./routes/exams'));
 app.use('/api/questions', require('./routes/questions'));
 app.use('/api/exam-users', require('./routes/userExam'));
-
+app.use('/api/users', require('./routes/user'));  
 // ================== STATIC FILES ================== //
 // Thư mục chứa video upload
 app.use('/uploads', express.static('uploads'));
