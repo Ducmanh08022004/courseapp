@@ -4,7 +4,7 @@ const { auth } = require('../middleware/auth');
 
 const router = express.Router();
 
-// 📌 Tạo đơn hàng mới
+// Tạo đơn hàng mới
 router.post('/', auth, async (req, res) => {
   try {
     const { courseId } = req.body;
@@ -18,15 +18,14 @@ router.post('/', auth, async (req, res) => {
     const order = await Order.create({
       userId: req.user.id,
       courseId,
-      amount: course.price,
       status: 'pending'
     });
 
     // Tạo record Payment tương ứng (chưa thanh toán)
     const payment = await Payment.create({
-      orderId: order.id,
+      orderId: order.orderId,
       amount: course.price,
-      method: 'unpaid', // ví dụ: unpaid, paypal, stripe, momo, vnpay...
+      paymentMethod: 'unpaid', // ví dụ: unpaid, paypal, stripe, momo, vnpay...
       status: 'pending'
     });
 
@@ -41,7 +40,7 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// 📌 Lấy tất cả đơn hàng của user
+//  Lấy tất cả đơn hàng của user
 router.get('/', auth, async (req, res) => {
   try {
     const orders = await Order.findAll({
@@ -55,7 +54,7 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// 📌 Lấy chi tiết 1 đơn hàng
+//  Lấy chi tiết 1 đơn hàng
 router.get('/:id', auth, async (req, res) => {
   try {
     const order = await Order.findOne({

@@ -13,7 +13,7 @@ router.post('/', auth, async (req, res) => {
     }
 
     const [p] = await Progress.upsert({ 
-      userId: req.user.id, 
+      userId: req.user.userId, 
       courseId, 
       percentage 
     });
@@ -49,7 +49,7 @@ router.get('/course/:courseId', auth, async (req, res) => {
 router.get('/my-courses', auth, async (req, res) => {
   try {
     const progresses = await Progress.findAll({
-      where: { userId: req.user.id },
+      where: { userId: req.user.userId },
       include: { model: Course, attributes: ['title'] }
     });
 

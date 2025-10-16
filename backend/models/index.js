@@ -21,8 +21,8 @@ const Course = sequelize.define('Course', {
   title: DataTypes.STRING,
   description: DataTypes.TEXT,
   price: DataTypes.DECIMAL(10,2),
-  createAt : { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
-  updateAt : { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
+  createdAt : { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+  updatedAt : { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
 });
 
 // Video
@@ -30,7 +30,7 @@ const Video = sequelize.define('Video', {
   videoId: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
   title: DataTypes.STRING,
   url: DataTypes.STRING,
-  duration: DataTypes.DOUBLE
+  duration: DataTypes.STRING
 });
 
 // Order

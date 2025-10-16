@@ -16,7 +16,10 @@ router.post('/register', async (req, res) => {
     if (exists) {
       return res.status(400).json({ msg: 'Email already registered' });
     }
-
+    exists = await User.findOne({ where: { username } });
+    if (exists) {
+      return res.status(400).json({ msg: 'Username already taken' });
+    }
     // Hash password
     const hash = await bcrypt.hash(password, 10);
 
@@ -57,14 +60,14 @@ router.post('/login', async (req, res) => {
 
     // Tạo JWT
     const token = jwt.sign(
-      { id: user.id, role: user.role },
+      { id: user.userId, role: user.role },
       JWT_SECRET,
       { expiresIn: '7d' }
     );
 
     return res.json({
       token,
-      user: { id: user.id, username: user.username, email: user.email, role: user.role }
+      user: { id: user.userId, username: user.username, email: user.email, role: user.role }
     });
   } catch (err) {
     console.error('Login error:', err);

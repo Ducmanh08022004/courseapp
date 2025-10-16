@@ -31,7 +31,9 @@ router.post('/', auth, isAdmin, upload.single('file'), async (req, res) => {
 
         if (!req.file) return res.status(400).json({ error: 'No video file uploaded' });
 
-        const filePath = req.file.path; // ví dụ: uploads/1696527234000.mp4
+        const filePath = req.file.path; // đường dẫn lưu file
+
+        // tạo bản ghi video    
 
         const video = await Video.create({ 
             title, 
@@ -122,4 +124,39 @@ router.get('/stream/:videoId', auth, async (req, res) => {
     }
 });
 
+// Xóa video (admin)
+router.delete('/:videoId', auth, isAdmin, async (req, res) => {
+    try {
+        const { videoId } = req.params;
+
+        // 1. Tìm video trong database
+        const video = await Video.findByPk(videoId);
+        if (!video) {
+            return res.status(404).json({ error: 'Video not found' });
+        }
+
+        // Lấy đường dẫn file
+        const videoPath = path.join(process.cwd(), video.url);
+
+        // 2. Xóa file vật lý khỏi thư mục 'uploads'
+        // Kiểm tra xem file có tồn tại không trước khi xóa
+        if (fs.existsSync(videoPath)) {
+            try {
+                fs.unlinkSync(videoPath);
+                // Xóa file thành công
+            } catch (fileErr) {
+                // Ghi lại lỗi xóa file nhưng vẫn tiếp tục để xóa DB record
+                console.error(`Error deleting file ${videoPath}:`, fileErr);
+            }
+        }
+
+        // 3. Xóa bản ghi video khỏi database
+        await video.destroy();
+
+        res.status(200).json({ message: 'Video deleted successfully' });
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 module.exports = router;
