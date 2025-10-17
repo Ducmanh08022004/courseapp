@@ -47,7 +47,7 @@ router.get('/:id', async (req, res) => {
 //  3. Cập nhật thông tin user
 router.put('/:id', async (req, res) => {
   try {
-    // Chỉ lấy các trường bạn cho phép cập nhật từ body
+
     const { fullname, password, email } = req.body;
     
     const user = await User.findByPk(req.params.id);
