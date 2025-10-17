@@ -4,35 +4,27 @@ const { auth } = require('../middleware/auth');
 
 const router = express.Router();
 
-// ... (route POST / và GET / không đổi)
-
-//  TẠO ĐƠN HÀNG MỚI
+// TẠO ĐƠN HÀNG MỚI
 router.post('/', auth, async (req, res) => {
   try {
     const { courseId } = req.body;
-
     const course = await Course.findByPk(courseId);
     if (!course) {
       return res.status(404).json({ msg: 'Course not found' });
     }
-
-    // Tạo order ở trạng thái pending
     const order = await Order.create({
       userId: req.user.id,
       courseId,
-      amount: course.price,
       status: 'pending'
     });
-
-    return res.status(201).json(order); // Trả về order thôi là đủ
+    return res.status(201).json(order);
   } catch (err) {
     console.error('Create order error:', err);
     return res.status(500).json({ msg: 'Server error' });
   }
 });
 
-
-// 📌 LẤY TẤT CẢ ĐƠN HÀNG CỦA USER
+// LẤY TẤT CẢ ĐƠN HÀNG CỦA USER
 router.get('/', auth, async (req, res) => {
     try {
       const orders = await Order.findAll({
@@ -41,13 +33,32 @@ router.get('/', auth, async (req, res) => {
       });
       return res.json(orders);
     } catch (err) {
-      console.error('Get orders error:', err);
+      console.error('Get all orders error:', err);
       return res.status(500).json({ msg: 'Server error' });
     }
-  });
+});
 
+//LẤY CÁC KHÓA HỌC ĐÃ MUA
+router.get('/my-courses', auth, async (req, res) => {
+    try {
+        const orders = await Order.findAll({
+            where: {
+                userId: req.user.id,
+                status: 'paid'
+            },
+            include: [{
+                model: Course,
+                attributes: ['courseId', 'title']
+            }]
+        });
+        return res.json(orders);
+    } catch (err) {
+        console.error('Get my paid courses error:', err);
+        return res.status(500).json({ msg: 'Server error' });
+    }
+});
 
-// ROUTE MỚI: KIỂM TRA ĐƠN HÀNG THEO KHÓA HỌC
+// ROUTE KIỂM TRA ĐƠN HÀNG THEO KHÓA HỌC
 router.get('/course/:courseId', auth, async (req, res) => {
   try {
     const { courseId } = req.params;
@@ -57,12 +68,9 @@ router.get('/course/:courseId', auth, async (req, res) => {
         courseId: courseId
       }
     });
-
     if (!order) {
-      // Rất quan trọng: Trả về 404 nếu không tìm thấy
       return res.status(404).json({ msg: 'Order not found for this course' });
     }
-
     return res.json(order);
   } catch (err) {
     console.error('Get order by course error:', err);
@@ -71,22 +79,22 @@ router.get('/course/:courseId', auth, async (req, res) => {
 });
 
 
-// ... (route GET /:id không đổi)
+// LẤY CHI TIẾT 1 ĐƠN HÀNG
 router.get('/:id', auth, async (req, res) => {
-    try {
-      const order = await Order.findOne({
-        where: { id: req.params.id, userId: req.user.id },
-        include: [{ model: Course }, { model: Payment }]
-      });
-  
-      if (!order) {
-        return res.status(404).json({ msg: 'Order not found' });
-      }
-  
-      return res.json(order);
-    } catch (err) {
-      console.error('Get order detail error:', err);
-      return res.status(500).json({ msg: 'Server error' });
+  try {
+    const order = await Order.findOne({
+      where: { orderId: req.params.id, userId: req.user.id }, 
+      include: [{ model: Course }, { model: Payment }]
+    });
+    if (!order) {
+      return res.status(404).json({ msg: 'Order not found' });
     }
-  });
+    return res.json(order);
+  } catch (err) {
+    console.error('Get order detail error:', err);
+    return res.status(500).json({ msg: 'Server error' });
+  }
+});
+
 module.exports = router;
+
