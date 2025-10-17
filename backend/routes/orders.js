@@ -38,7 +38,7 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
-//LẤY CÁC KHÓA HỌC ĐÃ MUA
+// LẤY CÁC KHÓA HỌC ĐÃ MUA
 router.get('/my-courses', auth, async (req, res) => {
     try {
         const orders = await Order.findAll({
@@ -48,7 +48,7 @@ router.get('/my-courses', auth, async (req, res) => {
             },
             include: [{
                 model: Course,
-                attributes: ['courseId', 'title']
+                attributes: ['courseId', 'title'] 
             }]
         });
         return res.json(orders);
@@ -77,6 +77,7 @@ router.get('/course/:courseId', auth, async (req, res) => {
     return res.status(500).json({ msg: 'Server error' });
   }
 });
+
 
 
 // LẤY CHI TIẾT 1 ĐƠN HÀNG
