@@ -45,9 +45,11 @@ router.get('/:id', async (req, res) => {
 
 
 //  3. Cập nhật thông tin user
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
   try {
-
+    if (req.user.id !== parseInt(req.params.id)) {
+        return res.status(403).json({ message: "Bạn chỉ cập nhật thông tin của chính mình." });
+    }
     const { fullname, password, email } = req.body;
     
     const user = await User.findByPk(req.params.id);

@@ -9,10 +9,10 @@ const sequelize = require('../config/db');
 const User = sequelize.define('User', {
   userId: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
   username: { type: DataTypes.STRING, allowNull: false, unique: true },
-  password: { type: DataTypes.STRING, allowNull: false },  
+  password: { type: DataTypes.STRING, allowNull: false },
   fullname: DataTypes.STRING,
   email: { type: DataTypes.STRING, unique: true },
-  role: { type: DataTypes.ENUM('student','admin'), defaultValue: 'student' }
+  role: { type: DataTypes.ENUM('student', 'admin'), defaultValue: 'student' }
 });
 
 // Course
@@ -20,9 +20,9 @@ const Course = sequelize.define('Course', {
   courseId: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
   title: DataTypes.STRING,
   description: DataTypes.TEXT,
-  price: DataTypes.DECIMAL(10,2),
-  createdAt : { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
-  updatedAt : { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
+  price: DataTypes.DECIMAL(10, 2),
+  createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+  updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
 });
 
 // Video
@@ -40,8 +40,8 @@ const Order = sequelize.define('Order', {
   courseId: { type: DataTypes.INTEGER, allowNull: false },
   dateOfPurchase: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   expirationDate: { type: DataTypes.DATE },
-  status: { 
-    type: DataTypes.ENUM('pending','paid','cancelled'),
+  status: {
+    type: DataTypes.ENUM('pending', 'paid', 'cancelled'),
     defaultValue: 'pending'
   }
 });
@@ -51,8 +51,8 @@ const Payment = sequelize.define('Payment', {
   paymentId: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
   orderId: { type: DataTypes.INTEGER, allowNull: false },
   paymentMethod: { type: DataTypes.STRING, allowNull: false }, // vd: momo, paypal
-  amount: { type: DataTypes.DECIMAL(10,2), allowNull: false },
-  status: { type: DataTypes.ENUM('pending','success','failed'), defaultValue: 'pending' }
+  amount: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
+  status: { type: DataTypes.ENUM('pending', 'success', 'failed'), defaultValue: 'pending' }
 });
 
 // Notification
@@ -65,11 +65,11 @@ const Notification = sequelize.define('Notification', {
 // Progress
 const Progress = sequelize.define('Progress', {
   progressId: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-  percentage: { 
-  type: DataTypes.DOUBLE, 
-  defaultValue: 0,
-  validate: { min: 0, max: 100 }
-}
+  percentage: {
+    type: DataTypes.DOUBLE,
+    defaultValue: 0,
+    validate: { min: 0, max: 100 }
+  }
 
 });
 
@@ -145,7 +145,7 @@ UserExam.belongsTo(Exam, { foreignKey: 'examId' });
 
 
 // ======================= EXPORT ======================= //
-module.exports = { 
-  sequelize, 
+module.exports = {
+  sequelize,
   User, Course, Video, Order, Payment, Notification, Progress, Exam, Question, UserExam
 };
