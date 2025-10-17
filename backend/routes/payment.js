@@ -4,7 +4,7 @@ const { auth } = require('../middleware/auth');
 
 const router = express.Router();
 
-// 📌 Tạo payment cho order
+//  Tạo payment cho order
 router.post('/', auth, async (req, res) => {
   try {
     const { orderId, method } = req.body;
@@ -42,7 +42,7 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// 📌 Lấy danh sách payments của user
+//  Lấy danh sách payments của user
 router.get('/', auth, async (req, res) => {
   try {
     const payments = await Payment.findAll({
@@ -60,7 +60,7 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// 📌 Lấy chi tiết 1 payment
+// Lấy chi tiết 1 payment
 router.get('/:id', auth, async (req, res) => {
   try {
     const payment = await Payment.findOne({
