@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.get('/:title', async (req, res) => {
+router.get('/title/:title', async (req, res) => {
   try {
     const course = await Course.findOne({ where: { title: req.params.title } });
     if (!course) return res.status(404).json({ msg: 'Course not found' });
