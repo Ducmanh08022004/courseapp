@@ -24,6 +24,9 @@ app.use('/api/users', require('./routes/user'));
 // ================== STATIC FILES ================== //
 // Thư mục chứa video upload
 app.use('/uploads', express.static('uploads'));
+// Thư mục chứa ảnh khóa học
+app.use('/themes', express.static('themes'));
+
 
 // ================== START SERVER ================== //
 const PORT = process.env.PORT || 5000;
