@@ -34,6 +34,16 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+route.get('/:title', async (req, res) => {
+  try {
+    const course = await Course.findOne({ where: { title: req.params.title } });
+    if (!course) return res.status(404).json({ msg: 'Course not found' });
+    res.json(course);
+  } catch (err) {
+    res.status(500).json({ msg: 'Error fetching course', error: err.message });
+  } 
+});
+
 // Tạo mới khóa học (Admin)
 router.post('/', auth, isAdmin, async (req, res) => {
   try {
