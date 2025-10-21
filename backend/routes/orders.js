@@ -48,7 +48,7 @@ router.get('/my-courses', auth, async (req, res) => {
             },
             include: [{
                 model: Course,
-                attributes: ['courseId', 'title'] 
+                attributes: ['courseId', 'title', 'imageUrl']
             }]
         });
         return res.json(orders);
