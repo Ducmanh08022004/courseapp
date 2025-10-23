@@ -63,17 +63,6 @@ const Notification = sequelize.define('Notification', {
   isRead: { type: DataTypes.BOOLEAN, defaultValue: false }
 });
 
-// Progress
-const Progress = sequelize.define('Progress', {
-  progressId: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-  percentage: {
-    type: DataTypes.DOUBLE,
-    defaultValue: 0,
-    validate: { min: 0, max: 100 }
-  }
-
-});
-
 // Exam
 const Exam = sequelize.define('Exam', {
   examId: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
@@ -98,7 +87,33 @@ const Question = sequelize.define('Question', {
   answer: { type: DataTypes.JSON, allowNull: false },  // List<String>
   correctAnswer: { type: DataTypes.STRING, allowNull: false }
 });
-
+/**
+ * VideoProgress: lưu video nào user đã xem đủ (isCompleted)
+ * CourseProgress: cache tạm % video / % exam / total (dùng để FE load nhanh)
+ */
+const VideoProgress = sequelize.define('VideoProgress', {
+  id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+  userId: { type: DataTypes.INTEGER, allowNull: false },
+  videoId: { type: DataTypes.INTEGER, allowNull: false },
+  isCompleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+  watchedDuration: { type: DataTypes.INTEGER, defaultValue: 0 }
+}, {
+  indexes: [
+    {
+      unique: true,
+      fields: ['userId', 'videoId']
+    }
+  ]
+});
+// CourseProgress:  videoPercent từ 0..70, examPercent 0..30, totalPercent 0..100
+const CourseProgress = sequelize.define('CourseProgress', {
+  id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+  userId: { type: DataTypes.INTEGER, allowNull: false },
+  courseId: { type: DataTypes.INTEGER, allowNull: false },
+  videoPercent: { type: DataTypes.DOUBLE, defaultValue: 0 }, // 0..70
+  examPercent: { type: DataTypes.DOUBLE, defaultValue: 0 },  // 0..30
+  totalPercent: { type: DataTypes.DOUBLE, defaultValue: 0 }  // video + exam
+});
 // ======================= RELATIONSHIPS ======================= //
 
 // User – Order
@@ -109,17 +124,11 @@ Order.belongsTo(User, { foreignKey: 'userId' });
 User.hasMany(Notification, { foreignKey: 'userId' });
 Notification.belongsTo(User, { foreignKey: 'userId' });
 
-// User – Progress
-User.hasMany(Progress, { foreignKey: 'userId' });
-Progress.belongsTo(User, { foreignKey: 'userId' });
 
 // Course – Order
 Course.hasMany(Order, { foreignKey: 'courseId' });
 Order.belongsTo(Course, { foreignKey: 'courseId' });
 
-// Course – Progress
-Course.hasMany(Progress, { foreignKey: 'courseId' });
-Progress.belongsTo(Course, { foreignKey: 'courseId' });
 
 // Course – Video
 Course.hasMany(Video, { foreignKey: 'courseId' });
@@ -144,9 +153,20 @@ UserExam.belongsTo(User, { foreignKey: 'userId' });
 Exam.hasMany(UserExam, { foreignKey: 'examId' });
 UserExam.belongsTo(Exam, { foreignKey: 'examId' });
 
+User.hasMany(VideoProgress, { foreignKey: 'userId' });
+VideoProgress.belongsTo(User, { foreignKey: 'userId' });
+
+Video.hasMany(VideoProgress, { foreignKey: 'videoId' });
+VideoProgress.belongsTo(Video, { foreignKey: 'videoId' });
+
+User.hasMany(CourseProgress, { foreignKey: 'userId' });
+CourseProgress.belongsTo(User, { foreignKey: 'userId' });
+
+Course.hasMany(CourseProgress, { foreignKey: 'courseId' });
+CourseProgress.belongsTo(Course, { foreignKey: 'courseId' });
 
 // ======================= EXPORT ======================= //
 module.exports = {
   sequelize,
-  User, Course, Video, Order, Payment, Notification, Progress, Exam, Question, UserExam
+  User, Course, Video, Order, Payment, Notification, Exam, Question, UserExam, VideoProgress, CourseProgress
 };

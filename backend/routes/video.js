@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/'); // thư mục lưu file upload
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname)); 
+        cb(null, Date.now() + path.extname(file.originalname));
     }
 });
 const upload = multer({ storage: storage });
@@ -35,11 +35,11 @@ router.post('/', auth, isAdmin, upload.single('file'), async (req, res) => {
 
         // tạo bản ghi video    
 
-        const video = await Video.create({ 
-            title, 
-            url: filePath, 
-            duration, 
-            courseId 
+        const video = await Video.create({
+            title,
+            url: filePath,
+            duration,
+            courseId
         });
 
         res.status(201).json(video);
@@ -51,7 +51,7 @@ router.post('/', auth, isAdmin, upload.single('file'), async (req, res) => {
 // Lấy tất cả video (admin)
 router.get('/', auth, isAdmin, async (req, res) => {
     try {
-        const videos = await Video.findAll();   
+        const videos = await Video.findAll();
         res.json(videos);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -61,13 +61,13 @@ router.get('/', auth, isAdmin, async (req, res) => {
 // Lấy video theo khóa học (chỉ user đã mua mới xem được list)
 router.get('/course/:courseId', auth, async (req, res) => {
     try {
-        const { courseId } = req.params;    
+        const { courseId } = req.params;
 
         const course = await Course.findByPk(courseId);
         if (!course) return res.status(404).json({ error: 'Course not found' });
 
-        const order = await Order.findOne({ 
-            where: { userId: req.user.id, courseId, status: 'paid' }
+        const order = await Order.findOne({
+            where: { userId: req.user.userId, courseId, status: 'paid' }
         });
         if (!order) return res.status(403).json({ error: 'You do not have access to this course' });
 
@@ -85,8 +85,8 @@ router.get('/stream/:videoId', auth, async (req, res) => {
         if (!video) return res.status(404).json({ error: 'Video not found' });
 
         // kiểm tra user có quyền truy cập khóa học này không
-        const order = await Order.findOne({ 
-            where: { userId: req.user.id, courseId: video.Course.courseId, status: 'paid' }
+        const order = await Order.findOne({
+            where: { userId: req.user.userId, courseId: video.Course.courseId, status: 'paid' }
         });
         if (!order) return res.status(403).json({ error: 'You do not have access to this video' });
 
@@ -123,7 +123,36 @@ router.get('/stream/:videoId', auth, async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+router.post('/complete/:videoId', auth, async (req, res) => {
+    try {
+        const { videoId } = req.params;
+        const uid = req.user.userId ;
 
+        const video = await Video.findByPk(videoId);
+        if (!video) return res.status(404).json({ error: 'Video not found' });
+
+        const { VideoProgress } = require('../models');
+
+        await VideoProgress.update(
+            { isCompleted: true },
+            { where: { userId: uid, videoId: video.videoId } }
+        ).then(async (rows) => {
+            if (rows[0] === 0) {
+                await VideoProgress.create({ userId: uid, videoId: video.videoId, isCompleted: true });
+            }
+        });
+
+
+        // Cập nhật tiến độ course
+        const { updateCourseProgress } = require('../utils/progressHelper');
+        await updateCourseProgress(uid, video.courseId);
+
+        return res.json({ msg: ' Video completed & progress updated' });
+    } catch (err) {
+        console.error('Error in /video/complete:', err);
+        return res.status(500).json({ error: err.message });
+    }
+});
 // Xóa video (admin)
 router.delete('/:videoId', auth, isAdmin, async (req, res) => {
     try {

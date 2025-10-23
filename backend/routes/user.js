@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
 
 router.get('/me', auth, async (req, res) => {
     try {
-        const user = await User.findByPk(req.user.id, {
+        const user = await User.findByPk(req.user.userId, {
            attributes: { exclude: ['password'] }
         });
 
@@ -47,7 +47,7 @@ router.get('/:id', async (req, res) => {
 //  3. Cập nhật thông tin user
 router.put('/:id', auth, async (req, res) => {
   try {
-    if (req.user.id !== parseInt(req.params.id)) {
+    if (req.user.userId !== parseInt(req.params.id)) {
         return res.status(403).json({ message: "Bạn chỉ cập nhật thông tin của chính mình." });
     }
     const { fullname, password, email } = req.body;

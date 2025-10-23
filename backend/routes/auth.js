@@ -33,7 +33,7 @@ router.post('/register', async (req, res) => {
 
     return res.status(201).json({
       msg: 'User registered successfully',
-      user: { id: newUser.id, name: newUser.name, email: newUser.email, role: newUser.role }
+      user: { userId: newUser.id, name: newUser.name, email: newUser.email, role: newUser.role }
     });
   } catch (err) {
     console.error('Register error:', err);
@@ -60,14 +60,14 @@ router.post('/login', async (req, res) => {
 
     // Tạo JWT
     const token = jwt.sign(
-      { id: user.userId, role: user.role },
+      { userId: user.userId, role: user.role },
       JWT_SECRET,
       { expiresIn: '7d' }
     );
 
     return res.json({
       token,
-      user: { id: user.userId, username: user.username, email: user.email, role: user.role }
+      user: { userId: user.userId, username: user.username, email: user.email, role: user.role }
     });
   } catch (err) {
     console.error('Login error:', err);

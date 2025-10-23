@@ -1,67 +1,80 @@
 const express = require('express');
-const { Progress, Course } = require('../models');
+const { Course, CourseProgress, Order } = require('../models');
 const { auth } = require('../middleware/auth');
 const router = express.Router();
-
-// Cập nhật hoặc tạo tiến độ học tập cho course
-router.post('/', auth, async (req, res) => {
-  try {
-    const { courseId, percentage } = req.body;
-
-    if (percentage < 0 || percentage > 100) {
-      return res.status(400).json({ msg: 'Percentage must be between 0 and 100' });
-    }
-
-    const [p] = await Progress.upsert({ 
-      userId: req.user.userId, 
-      courseId, 
-      percentage 
-    });
-
-    res.json(p);
-  } catch (err) {
-    res.status(500).json({ msg: 'Error saving progress', error: err.message });
-  }
-});
 
 // Lấy tiến độ học tập theo course
 router.get('/course/:courseId', auth, async (req, res) => {
   try {
     const { courseId } = req.params;
-    const progress = await Progress.findOne({ 
-      where: { userId: req.user.id, courseId },
-      include: { model: Course, attributes: ['title'] }
+    const userId = req.user.userId;
+
+    // 1. Tìm cache CourseProgress
+    const cp = await CourseProgress.findOne({ where: { userId, courseId } });
+
+    if (cp) {
+      return res.json({
+        courseId,
+        videoPercent: cp.videoPercent,
+        examPercent: cp.examPercent,
+        totalPercent: cp.totalPercent
+      });
+    }
+
+    // 2. Nếu chưa có cache → tính realtime
+    const { updateCourseProgress } = require('../utils/progressHelper');
+    const stats = await updateCourseProgress(userId, courseId);
+
+    return res.json({
+      courseId,
+      videoPercent: stats.videoPercent,
+      examPercent: stats.examPercent,
+      totalPercent: stats.totalPercent
     });
 
-    if (!progress) return res.json({ percentage: 0, courseId, title: null });
-
-    res.json({
-      courseId: progress.courseId,
-      title: progress.Course.title,
-      percentage: progress.percentage
-    });
   } catch (err) {
-    res.status(500).json({ msg: 'Error fetching progress', error: err.message });
+    res.status(500).json({ msg: 'Error fetching course progress', error: err.message });
   }
 });
 
-// Lấy toàn bộ tiến độ học tập của user (tất cả khóa học)
+// Lấy tiến độ tất cả khóa học user đã mua
 router.get('/my-courses', auth, async (req, res) => {
   try {
-    const progresses = await Progress.findAll({
-      where: { userId: req.user.userId },
-      include: { model: Course, attributes: ['title'] }
+    const userId = req.user.userId;
+
+    // 1. Lấy danh sách khóa học user đã mua
+    const purchasedCourses = await Order.findAll({
+      where: { userId, status: 'paid' },
+      include: { model: Course, attributes: ['courseId', 'title'] }
     });
 
-    const result = progresses.map(p => ({
-      courseId: p.courseId,
-      title: p.Course ? p.Course.title : null,
-      percentage: p.percentage
-    }));
+    if (!purchasedCourses || purchasedCourses.length === 0) {
+      return res.json({ msg: "No purchased courses", courses: [] });
+    }
 
-    res.json(result);
+    const courseIds = purchasedCourses.map(o => o.courseId);
+
+    // 2. Lấy progress cache
+    const progressList = await CourseProgress.findAll({
+      where: { userId, courseId: courseIds }
+    });
+
+    // 3. Build response
+    const response = purchasedCourses.map(order => {
+      const cp = progressList.find(p => p.courseId === order.courseId);
+      return {
+        courseId: order.courseId,
+        title: order.Course?.title || null,
+        videoPercent: cp?.videoPercent ?? 0,
+        examPercent: cp?.examPercent ?? 0,
+        totalPercent: cp?.totalPercent ?? 0
+      };
+    });
+
+    res.json(response);
+
   } catch (err) {
-    res.status(500).json({ msg: 'Error fetching user progress', error: err.message });
+    res.status(500).json({ msg: 'Error fetching user courses progress', error: err.message });
   }
 });
 

@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', auth, async (req, res) => {
   try {
     const notes = await Notification.findAll({
-      where: { userId: req.user.id },
+      where: { userId: req.user.userId },
       order: [['createdAt', 'DESC']]
     });
     return res.json(notes);
@@ -23,7 +23,7 @@ router.put('/:id/read', auth, async (req, res) => {
   try {
     const { id } = req.params;
     const note = await Notification.findOne({
-      where: { id, userId: req.user.id }
+      where: { id, userId: req.user.userId }
     });
 
     if (!note) {
@@ -44,7 +44,7 @@ router.put('/mark-all-read', auth, async (req, res) => {
   try {
     await Notification.update(
       { isRead: true },
-      { where: { userId: req.user.id } }
+      { where: { userId: req.user.userId } }
     );
     return res.json({ msg: 'All notifications marked as read' });
   } catch (err) {

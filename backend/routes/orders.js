@@ -13,7 +13,7 @@ router.post('/', auth, async (req, res) => {
       return res.status(404).json({ msg: 'Course not found' });
     }
     const order = await Order.create({
-      userId: req.user.id,
+      userId: req.user.userId,
       courseId,
       status: 'pending'
     });
@@ -28,7 +28,7 @@ router.post('/', auth, async (req, res) => {
 router.get('/', auth, async (req, res) => {
     try {
       const orders = await Order.findAll({
-        where: { userId: req.user.id },
+        where: { userId: req.user.userId },
         include: [{ model: Course }, { model: Payment }]
       });
       return res.json(orders);
@@ -43,7 +43,7 @@ router.get('/my-courses', auth, async (req, res) => {
     try {
         const orders = await Order.findAll({
             where: {
-                userId: req.user.id,
+                userId: req.user.userId,
                 status: 'paid'
             },
             include: [{
@@ -64,7 +64,7 @@ router.get('/course/:courseId', auth, async (req, res) => {
     const { courseId } = req.params;
     const order = await Order.findOne({
       where: {
-        userId: req.user.id,
+        userId: req.user.userId,
         courseId: courseId
       }
     });
@@ -84,7 +84,7 @@ router.get('/course/:courseId', auth, async (req, res) => {
 router.get('/:id', auth, async (req, res) => {
   try {
     const order = await Order.findOne({
-      where: { orderId: req.params.id, userId: req.user.id }, 
+      where: { orderId: req.params.id, userId: req.user.userId },
       include: [{ model: Course }, { model: Payment }]
     });
     if (!order) {

@@ -7,7 +7,6 @@ const router = express.Router();
 router.post('/submit', auth, async (req, res) => {
   try {
     const { examId, answers } = req.body; 
-    // answers: [{ questionId: 1, userAnswer: "A" }, ...]
 
     const exam = await Exam.findByPk(examId, {
       include: [{ model: Question }]
@@ -25,17 +24,22 @@ router.post('/submit', auth, async (req, res) => {
     const totalQuestions = exam.Questions.length;
     const percent = totalQuestions > 0 ? (score / totalQuestions) * 100 : 0;
 
-    // Lưu kết quả vào UserExam
     const result = await UserExam.create({
-      userId: req.user.id,
+      userId: req.user.userId,
       examId,
       score,
       totalQuestions,
       percent
     });
 
+    //  Lấy đúng courseId để update progress
+    const courseId = exam.courseId;
+
+    const { updateCourseProgress } = require('../utils/progressHelper');
+    await updateCourseProgress(req.user.userId, courseId);
+
     res.json({
-      msg: 'Exam submitted successfully',
+      msg: ' Exam submitted & progress updated',
       score,
       totalQuestions,
       percent,
@@ -50,7 +54,7 @@ router.post('/submit', auth, async (req, res) => {
 router.get('/', auth, async (req, res) => {
   try {
     const results = await UserExam.findAll({
-      where: { userId: req.user.id },
+      where: { userId: req.user.userId },
       include: [{ model: Exam, attributes: ['title'],
         include: [{ model: Course, attributes: ['courseId', 'title'] }] 
        }]

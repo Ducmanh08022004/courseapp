@@ -14,7 +14,7 @@ router.post('/', auth, async (req, res) => {
         include: [{ model: Course }]
     });
 
-    if (!order || order.userId !== req.user.id) {
+    if (!order || order.userId !== req.user.userId) {
       return res.status(404).json({ msg: 'Order not found' });
     }
 
@@ -55,7 +55,7 @@ router.get('/', auth, async (req, res) => {
       const payments = await Payment.findAll({
         include: {
           model: Order,
-          where: { userId: req.user.id }
+          where: { userId: req.user.userId }
         },
         order: [['createdAt', 'DESC']]
       });
@@ -71,7 +71,7 @@ router.get('/', auth, async (req, res) => {
     try {
       const payment = await Payment.findOne({
         where: { id: req.params.id },
-        include: { model: Order, where: { userId: req.user.id } }
+        include: { model: Order, where: { userId: req.user.userId } }
       });
   
       if (!payment) {
