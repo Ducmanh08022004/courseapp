@@ -105,14 +105,21 @@ const VideoProgress = sequelize.define('VideoProgress', {
     }
   ]
 });
-// CourseProgress:  videoPercent từ 0..70, examPercent 0..30, totalPercent 0..100
+// CourseProgress:  
 const CourseProgress = sequelize.define('CourseProgress', {
   id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
   userId: { type: DataTypes.INTEGER, allowNull: false },
   courseId: { type: DataTypes.INTEGER, allowNull: false },
-  videoPercent: { type: DataTypes.DOUBLE, defaultValue: 0 }, // 0..70
-  examPercent: { type: DataTypes.DOUBLE, defaultValue: 0 },  // 0..30
-  totalPercent: { type: DataTypes.DOUBLE, defaultValue: 0 }  // video + exam
+  videoPercent: { type: DataTypes.DOUBLE, defaultValue: 0 },
+  examPercent: { type: DataTypes.DOUBLE, defaultValue: 0 },
+  totalPercent: { type: DataTypes.DOUBLE, defaultValue: 0 }
+}, {
+  indexes: [
+    {
+      unique: true,
+      fields: ['userId', 'courseId']   
+    }
+  ]
 });
 // ======================= RELATIONSHIPS ======================= //
 
