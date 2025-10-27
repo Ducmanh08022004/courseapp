@@ -66,9 +66,6 @@ async function updateCourseProgress(userId, courseId) {
   });
 
   // Debug info để bạn xem trong logs
-  console.debug('[updateCourseProgress] userId=%s courseId=%s totalVideos=%d completedVideos=%d totalExams=%d passedExams=%d -> video%%=%.2f exam%%=%.2f total%%=%.2f',
-    userId, courseId, totalVideos, completedVideos, totalExams, passedExams, videoPercent, examPercent, totalPercent
-  );
 
   return { videoPercent, examPercent, totalPercent, totalVideos, completedVideos, totalExams, passedExams };
 }
