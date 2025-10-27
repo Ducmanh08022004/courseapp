@@ -1,0 +1,85 @@
+import Course from "./Course";
+import styles from "./styles/CourseList.module.css";
+
+function CourseList() {
+  const courses = [
+    {
+      id: 1,
+      title: "Nhà thiết kế UI/UX",
+      description:
+        "Tạo giao diện kỹ thuật số hấp dẫn và thân thiện với người dùng, nghiên cứu hành vi và thiết kế trải nghiệm.",
+      image: "/uiux.jpg",
+    },
+    {
+      id: 2,
+      title: "Chuyên viên phân tích dữ liệu",
+      description:
+        "Phân tích dữ liệu để tìm hiểu thông tin chi tiết, báo cáo xu hướng và hỗ trợ ra quyết định.",
+      image: "/data-analyst.jpg",
+    },
+    {
+      id: 3,
+      title: "Kỹ sư học máy (Machine Learning Engineer)",
+      description:
+        "Xây dựng mô hình học máy, tối ưu thuật toán và ứng dụng trí tuệ nhân tạo trong thực tế.",
+      image: "/ml-engineer.jpg",
+    },
+    {
+      id: 4,
+      title: "Nhà khoa học dữ liệu",
+      description:
+        "Phân tích bộ dữ liệu lớn, khám phá thông tin chuyên sâu và phát triển chiến lược kinh doanh.",
+      image: "/data-scientist.jpg",
+    },
+    {
+        id: 5,
+        title: "Phát triển ứng dụng di động",
+        description:
+          "Xây dựng và tối ưu hóa ứng dụng cho nền tảng iOS và Android, đảm bảo hiệu suất và trải nghiệm người dùng tốt.",
+        image: "/mobile-dev.jpg",
+    },
+    {
+        id: 6,
+        title: "Chuyên viên An ninh mạng",
+        description:
+          "Bảo vệ hệ thống và dữ liệu khỏi các mối đe dọa mạng, triển khai các biện pháp an ninh hiệu quả.",
+        image: "/cybersecurity.jpg",
+    },
+    {
+        id: 7,
+        title: "Quản trị hệ thống",
+        description:
+          "Quản lý và duy trì hạ tầng CNTT, đảm bảo hệ thống hoạt động ổn định và hiệu quả.",
+        image: "/sysadmin.jpg",
+    },
+    {
+        id: 8,
+        title: "Phát triển Web Full-Stack",
+        description:
+          "Xây dựng ứng dụng web toàn diện từ giao diện người dùng đến quản lý cơ sở dữ liệu và máy chủ.",
+        image: "/fullstack.jpg",
+    },
+    {
+        id: 9,
+        title: "Chuyên viên Tiếp thị Kỹ thuật số",
+        description:
+          "Phát triển và thực hiện chiến lược tiếp thị trực tuyến, tối ưu hóa hiệu suất chiến dịch và phân tích dữ liệu người dùng.",
+        image: "/digital-marketing.jpg",
+    }
+  ];
+
+  return (
+    <div className={styles.courseList}>
+      {courses.map((course) => (
+        <Course
+          key={course.id}
+          title={course.title}
+          description={course.description}
+          image={course.image}
+        />
+      ))}
+    </div>
+  );
+}
+
+export default CourseList;

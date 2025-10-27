@@ -1,0 +1,166 @@
+.navbar {
+  position: fixed;        /* 🧩 Giữ cố định trên màn hình */
+  top: 0;                 /* Gắn vào viền trên */
+  left: 0;
+  width: 100%;            /* Chiếm toàn chiều rộng */
+  z-index: 1000;          /* Đảm bảo nằm trên nội dung khác */
+  background-color: #fff; /* Giữ nền trắng để che phần dưới khi cuộn */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  font-family: Arial, sans-serif;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex: 1;
+}
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.courseList {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-size: large;
+  font-weight: bold;
+  color: #e6007e;
+}
+
+.dropdown {
+  position: relative;
+  cursor: pointer;
+  text-decoration: none;
+}
+.dropdown :hover {
+  color: #b30065;
+}
+.dropdownMenu {
+  display: none;
+  position: absolute;
+  top: 28px;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-width: 180px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 10;
+}
+
+.dropdownMenu li {
+  list-style: none;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #e6007e;
+  transition: background 0.2s;
+}
+
+.dropdownMenu li:hover {
+  background-color: #f2f2f2;
+}
+
+.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Các phần khác */
+.searchBar {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  overflow: hidden;
+}
+
+.searchBar input {
+  border: none;
+  padding: 8px 10px;
+  outline: none;
+  width: 300px;
+}
+
+.searchBar button {
+  background-color: #e6007e;
+  color: white;
+    padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+}
+.searchBar button:hover {
+  background-color: #b30065;
+}
+
+.login {
+  background-color: #e6007e;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+}
+.login:hover {
+  background-color: #b30065;
+}
+
+.register {
+  color: #e6007e;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+}
+.register:hover {
+  color: #b30065;
+}
+
+.userMenu {
+  position: relative;
+  cursor: pointer;
+}
+
+.username {
+  font-weight: 500;
+  color: #333;
+}
+
+.showUser {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  list-style: none;
+  padding: 8px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  z-index: 100;
+}
+
+.showUser li {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.showUser li:hover {
+  background: #f3f3f3;
+}

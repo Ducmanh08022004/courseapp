@@ -1,0 +1,196 @@
+/* Thêm import font ở đầu file */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.container {
+  display: flex;
+  flex-direction: column; /* Mobile-first */
+  gap: 2rem;
+  padding: 3rem;
+  max-width: 1200px;
+  margin: auto;
+  background-color: #fff;
+  color: #222;
+  font-family: "Inter", sans-serif;
+}
+
+/* Đổi breakpoint sang 1024px để có không gian rộng hơn cho 2 cột */
+@media (min-width: 1024px) {
+  .container {
+    flex-direction: row;
+    gap: 3rem; /* Tăng khoảng cách một chút */
+  }
+}
+
+/* LEFT COLUMN */
+.content {
+  flex: 2;
+  min-width: 0; /* Ngăn flex item bị tràn */
+}
+
+.title {
+  font-size: 2.25rem; /* To hơn một chút */
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #555;
+}
+
+.section {
+  margin-top: 2.5rem; /* Tăng khoảng cách */
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.videoGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+/* Giữ nguyên media query cho video grid */
+@media (min-width: 640px) {
+  .videoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Trên layout 2 cột, 2 video mỗi hàng là hợp lý */
+  .videoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Thay đổi shadow và transition */
+.videoCard {
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.videoCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.videoPlayer {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background-color: #222; /* Thêm màu nền cho video */
+}
+
+.videoTitle {
+  padding: 0.75rem 1rem; /* Thêm padding ngang */
+  text-align: left; /* Căn trái đẹp hơn */
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* RIGHT SIDEBAR */
+.sidebar {
+  flex: 1;
+  border: 1px solid #e0e0e0; /* Border rõ hơn */
+  background-color: #ffffff; /* Nền trắng sạch sẽ */
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: fit-content;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Shadow rõ hơn */
+
+  /* Trên mobile, nó sẽ chiếm 100% và căn giữa */
+  width: 100%;
+  max-width: 380px; /* Giới hạn chiều rộng trên mobile */
+  margin: 0 auto; /* Căn giữa trên mobile */
+}
+
+/* Đây là phần quan trọng */
+@media (min-width: 1024px) {
+  .sidebar {
+    width: 360px; /* KÍCH CỠ CỐ ĐỊNH */
+    max-width: 360px;
+    flex-shrink: 0; /* Ngăn sidebar bị co lại */
+    position: sticky; /* Dính lại khi cuộn */
+    top: 3rem; /* Cách top 3rem (bằng padding của container) */
+  }
+}
+
+/* Class bị thiếu trong file CSS gốc */
+.sidebarImage {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Giữ tỉ lệ 16:9 */
+  object-fit: cover; /* Đảm bảo ảnh không bị méo */
+  border-radius: 8px; /* Bo góc ảnh */
+  margin-bottom: 1.5rem;
+  background-color: #f0f0f0; /* Màu nền chờ khi ảnh load */
+}
+
+.sidebarTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem; /* Tăng khoảng cách */
+}
+
+/* Căn chỉnh lại giá */
+.priceLabel {
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+}
+
+.price {
+  color: #e10098;
+  font-size: 1.5rem; /* To rõ hơn */
+  font-weight: 700;
+}
+
+.button {
+  background-color: #e10098;
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 0.85rem 0; /* Nút cao hơn */
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem; /* Cỡ chữ rõ ràng */
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.button:hover {
+  background-color: #c20084;
+  transform: scale(1.03); /* Hiệu ứng nhấn */
+}
+
+/* Thêm style cho Loading / Error */
+.loading,
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.error {
+  color: #d93025; /* Màu đỏ cho lỗi */
+}
