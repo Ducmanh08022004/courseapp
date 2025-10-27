@@ -1,0 +1,55 @@
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.loading, .error {
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 2rem;
+}
+
+.videoGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.videoCard {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
+    
+    display: flex;
+    flex-direction: column;
+    
+    /* Thay đổi: Tăng kích thước từ 50% lên 65% */
+    max-width: 65%;
+    justify-self: center;
+}
+
+.videoCard:hover {
+    transform: translateY(-5px);
+}
+
+.videoPlayer {
+    width: 100%;
+    height: auto;
+    order: 2;
+}
+
+.videoTitle {
+    padding: 1rem;
+    font-weight: bold;
+    color: #555;
+    order: 1;
+}

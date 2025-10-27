@@ -1,0 +1,42 @@
+.courseList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);  /* 🧱 4 cột cố định */
+  gap: 24px;                              /* khoảng cách giữa các thẻ */
+  padding: 40px 80px;                     /* lề xung quanh */
+  justify-items: center;                  /* căn giữa các thẻ */
+  align-items: start;                     /* căn trên cùng */
+  background-color: #fafafa;
+}
+
+.courseLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+@media (max-width: 1200px) {
+  .courseList {
+    grid-template-columns: repeat(3, 1fr); /* Màn hình nhỏ hơn thì còn 3 thẻ */
+  }
+}
+
+@media (max-width: 900px) {
+  .courseList {
+    grid-template-columns: repeat(2, 1fr); /* Tablet: 2 thẻ */
+  }
+}
+
+@media (max-width: 600px) {
+  .courseList {
+    grid-template-columns: 1fr;            /* Mobile: 1 thẻ */
+  }
+}

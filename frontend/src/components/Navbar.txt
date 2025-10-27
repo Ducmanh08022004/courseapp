@@ -1,0 +1,67 @@
+import { useState } from "react";
+import styles from "./styles/Navbar.module.css";
+import { IoSearch } from "react-icons/io5";
+import { Link } from "react-router-dom";
+
+function Navbar() {
+  const [openMenu, setOpenMenu] = useState(null);
+
+
+  const handleToggleMenu = (menuName) => {
+    // nếu menu đang mở thì tắt, còn nếu đang tắt thì mở
+    setOpenMenu((prevMenu) => (prevMenu === menuName ? null : menuName));
+  };
+
+  return (
+    <div className={styles.navbar}>
+      <div className={styles.container}>
+        <div className={styles.leftSection}>
+            <div className={styles.logo}>
+              <Link to="/">
+                <img
+                  src="/Logo.png"
+                  alt="Logo"
+                  height="50"
+                />
+              </Link>
+            </div>
+
+            <div className={styles.courseList}>
+              {/* Subjects */}
+              <div
+                className={styles.dropdown}
+                onClick={() => handleToggleMenu("subjects")}
+              >
+                <span>Khóa học ▾</span>
+
+                {openMenu === "subjects" && (
+                  <ul className={`${styles.dropdownMenu} ${styles.show}`}>
+                    <li>Tiếng Anh</li>
+                    <li>Tiếng Nhật</li>
+                    <li>Tiếng Trung</li>
+                    <li>Tiếng Hàn</li>
+                  </ul>
+                )}
+              </div>
+            </div>
+
+            <div className={styles.courseList}>
+                <span className={styles.dropdown}>Thư viện</span>
+            </div>
+
+            <div className={styles.searchBar}>
+              <input type="text" id="search" name="search" placeholder="Tìm khóa học" />
+              <button type="submit"><IoSearch size={24}/></button>
+            </div>
+        </div>
+
+        <div className={styles.rightSection}>
+          <Link to="/LoginPage" className={styles.login}>Đăng nhập</Link>
+          <Link to="/RegisterPage" className={styles.register}>Đăng kí</Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Navbar;
