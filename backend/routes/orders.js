@@ -5,24 +5,48 @@ const { auth } = require('../middleware/auth');
 const router = express.Router();
 
 // TẠO ĐƠN HÀNG MỚI
+// TẠO ĐƠN HÀNG MỚI
 router.post('/', auth, async (req, res) => {
   try {
     const { courseId } = req.body;
+
+    // Kiểm tra khóa học tồn tại
     const course = await Course.findByPk(courseId);
     if (!course) {
       return res.status(404).json({ msg: 'Course not found' });
     }
+
+    // Kiểm tra user đã có order cho khóa học này chưa (pending hoặc paid)
+    const existingOrder = await Order.findOne({
+      where: {
+        userId: req.user.userId,
+        courseId: courseId,
+        status: ['pending', 'paid'] // kiểm tra cả pending lẫn paid
+      }
+    });
+
+    if (existingOrder) {
+      if (existingOrder.status === 'paid') {
+        return res.status(400).json({ msg: 'Bạn đã mua khóa học này rồi' });
+      } else if (existingOrder.status === 'pending') {
+        return res.status(400).json({ msg: 'Bạn đã có đơn hàng đang chờ thanh toán cho khóa học này' });
+      }
+    }
+
+    // Tạo order mới
     const order = await Order.create({
       userId: req.user.userId,
       courseId,
       status: 'pending'
     });
+
     return res.status(201).json(order);
   } catch (err) {
     console.error('Create order error:', err);
     return res.status(500).json({ msg: 'Server error' });
   }
 });
+
 
 // LẤY TẤT CẢ ĐƠN HÀNG CỦA USER
 router.get('/', auth, async (req, res) => {
