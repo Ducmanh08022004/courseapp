@@ -55,6 +55,34 @@ function VideoList() {
     }
   }, [courseId]);
 
+  const handleVideoEnded = async (videoId) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found, please login.");
+        // Optionally, you could set an error state here
+        return;
+      }
+
+      const response = await axios.post(
+        `http://localhost:5000/api/videos/complete/${videoId}`,
+        {}, // No data is needed in the body for this request
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(`Video ${videoId} marked as complete.`, response.data.msg);
+      // Optionally, you could update the UI to show the video is completed
+      
+    } catch (err) {
+      console.error(`Error marking video ${videoId} as complete:`, err);
+      // Optionally, set an error state to show a message to the user
+    }
+  };
+
   if (loading) {
     return <div className={styles.loading}>Đang tải...</div>;
   }
@@ -74,6 +102,7 @@ function VideoList() {
                 src={`http://localhost:5000/${video.url}`}
                 controls
                 className={styles.videoPlayer}
+                onEnded={() => handleVideoEnded(video.videoId)}
               ></video>
               <div className={styles.videoTitle}>{video.title}</div>
             </div>

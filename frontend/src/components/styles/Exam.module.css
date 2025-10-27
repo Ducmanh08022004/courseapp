@@ -1,3 +1,5 @@
+/* Nội dung file: Exam.module.css (đã cập nhật) */
+
 .exam-container {
   max-width: 800px;
   margin: 2rem auto;
@@ -9,7 +11,7 @@
 
 .exam-title {
   text-align: center;
-  color: #333;
+  color: #e6007e; /* Thay đổi màu tiêu đề */
   margin-bottom: 2rem;
 }
 
@@ -18,7 +20,8 @@
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   border-radius: 8px;
-  border: 1px solid #eee;
+  /* Thêm một đường viền trái để tạo điểm nhấn */
+  border-left: 4px solid #e6007e; 
 }
 
 .question-content {
@@ -43,18 +46,21 @@
 }
 
 .answer-label:hover {
-  background-color: #e0e0e0;
+  /* Một màu hồng rất nhạt khi hover */
+  background-color: #fceef7; 
 }
 
-.answer-label input {
+.answer-label input[type="radio"] {
   margin-right: 0.5rem;
+  /* Dùng accent-color để đổi màu radio button khi được chọn */
+  accent-color: #e6007e; 
 }
 
 .submit-btn {
   display: block;
   width: 100%;
   padding: 1rem;
-  background-color: #007bff;
+  background-color: #e6007e; /* Màu chủ đạo cho nút chính */
   color: white;
   border: none;
   border-radius: 5px;
@@ -64,21 +70,46 @@
 }
 
 .submit-btn:hover {
-  background-color: #0056b3;
+  background-color: #c2006a; /* Màu đậm hơn khi hover */
 }
 
+/* ----- Kết quả ----- */
 .result-container {
-  text-align: center;
+  max-width: 800px;
+  margin: 2rem auto;
   padding: 2rem;
   background-color: #fff;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 .result-title {
-  color: #28a745;
+  color: #e6007e; /* Đổi màu tiêu đề kết quả */
   font-size: 2rem;
 }
 
 .result-details {
   font-size: 1.2rem;
+  color: #333;
+}
+
+/* ----- Thêm styles cho Loading và Error (có trong JSX nhưng thiếu trong CSS) ----- */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.5rem;
+  color: #555;
+}
+
+.error {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  font-size: 1.1rem;
+  color: #d93025; /* Màu đỏ cho lỗi */
+  background-color: #fdf4f3;
+  border: 1px solid #d93025;
+  border-radius: 8px;
+  text-align: center;
 }

@@ -19,14 +19,13 @@ const MyCourses = () => {
           return;
         }
 
-        const res = await axios.get('http://localhost:5000/api/orders/my-courses', {
+        const res = await axios.get('http://localhost:5000/api/progress/my-courses', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        const enrolledCourses = res.data.map(order => order.Course);
-        setCourses(enrolledCourses);
+        setCourses(res.data);
       } catch (err) {
         setError('Không thể tải danh sách khóa học. Vui lòng thử lại sau.');
         console.error(err);
@@ -85,7 +84,11 @@ const MyCourses = () => {
               <img src={course.imageUrl ? `http://localhost:5000${course.imageUrl}` : 'https://via.placeholder.com/300x200'} alt={course.title} />
               <div className={styles.courseInfo}>
                 <h2>{course.title}</h2>
-                <Link to={`/courses/${course.courseId}/videos`} className={styles.viewCourseButton}>Vào học</Link>
+                <div className={styles.progressContainer}>
+                  <div className={styles.progressBar} style={{ width: `${course.totalPercent || 0}%` }}></div>
+                </div>
+                <p>{`Hoàn thành ${Math.round(course.totalPercent || 0)}%`}</p>
+                <Link to={`/course/${course.courseId}/videos`} className={styles.viewCourseButton}>Vào học</Link>
                 <div className={styles.examSection}>
                   <h4>Bài kiểm tra</h4>
                   {exams[course.courseId] ? (

@@ -8,7 +8,7 @@ function Course({ id, title, description, image, price }) {
   }).format(price);
 
   return (
-    <Link to={`/courses/${id}`} className={styles.card} data-id={id}>
+    <Link to={`/course/${id}`} className={styles.card} data-id={id}>
       <div className={styles.image}>
         <img src={image} alt={title} />
       </div>

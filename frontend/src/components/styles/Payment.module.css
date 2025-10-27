@@ -1,0 +1,92 @@
+/* Nội dung file: Payment.module.css (đã cập nhật) */
+
+/* Thêm font cho đồng bộ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.paymentContainer {
+  max-width: 600px;
+  margin: 3rem auto; /* Tăng margin top/bottom */
+  padding: 2.5rem; /* Tăng padding */
+  background-color: #fff; /* Nền trắng */
+  border: 1px solid #eee;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* Shadow rõ hơn */
+  font-family: "Inter", sans-serif; /* Dùng font Inter */
+}
+
+.paymentContainer h2 {
+  text-align: center;
+  color: #e6007e; /* Màu chủ đạo cho tiêu đề */
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.courseInfo {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 2rem;
+}
+
+.courseInfo h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.courseInfo p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.courseInfo h4 {
+  color: #e6007e; /* Màu chủ đạo cho giá tiền */
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: right;
+  margin-bottom: 0;
+}
+
+.paymentButton {
+  background-color: #e6007e; /* Màu chủ đạo */
+  color: white;
+  border: none;
+  padding: 1rem 1.5rem; /* Nút to, rõ hơn */
+  border-radius: 8px; /* Bo góc nhiều hơn */
+  cursor: pointer;
+  font-size: 1.1rem; /* Chữ to hơn */
+  font-weight: 600;
+  width: 100%;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.paymentButton:hover {
+  background-color: #c2006a; /* Màu đậm hơn khi hover */
+  transform: scale(1.02); /* Hiệu ứng nhấn nhẹ */
+}
+
+.paymentButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none; /* Bỏ hiệu ứng khi bị vô hiệu hóa */
+}
+
+.error {
+  color: #d93025;
+  background-color: #fdf4f3;
+  border: 1px solid #d93025;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Thêm style cho Loading (có trong JSX) */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #555;
+  font-family: "Inter", sans-serif;
+}

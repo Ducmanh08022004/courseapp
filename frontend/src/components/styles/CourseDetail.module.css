@@ -1,4 +1,5 @@
-/* Thêm import font ở đầu file */
+/* Nội dung file: CourseDetail.module.css (đã cập nhật) */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 .container {
@@ -13,22 +14,21 @@
   font-family: "Inter", sans-serif;
 }
 
-/* Đổi breakpoint sang 1024px để có không gian rộng hơn cho 2 cột */
 @media (min-width: 1024px) {
   .container {
     flex-direction: row;
-    gap: 3rem; /* Tăng khoảng cách một chút */
+    gap: 3rem; 
   }
 }
 
 /* LEFT COLUMN */
 .content {
   flex: 2;
-  min-width: 0; /* Ngăn flex item bị tràn */
+  min-width: 0; 
 }
 
 .title {
-  font-size: 2.25rem; /* To hơn một chút */
+  font-size: 2.25rem; 
   font-weight: 700;
   margin-bottom: 1rem;
   line-height: 1.3;
@@ -41,7 +41,7 @@
 }
 
 .section {
-  margin-top: 2.5rem; /* Tăng khoảng cách */
+  margin-top: 2.5rem; 
 }
 
 .sectionTitle {
@@ -58,7 +58,6 @@
   gap: 1.5rem;
 }
 
-/* Giữ nguyên media query cho video grid */
 @media (min-width: 640px) {
   .videoGrid {
     grid-template-columns: repeat(2, 1fr);
@@ -66,13 +65,11 @@
 }
 
 @media (min-width: 1024px) {
-  /* Trên layout 2 cột, 2 video mỗi hàng là hợp lý */
   .videoGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Thay đổi shadow và transition */
 .videoCard {
   background-color: #f8f8f8;
   border-radius: 12px;
@@ -90,12 +87,12 @@
   width: 100%;
   height: 180px;
   object-fit: cover;
-  background-color: #222; /* Thêm màu nền cho video */
+  background-color: #222; 
 }
 
 .videoTitle {
-  padding: 0.75rem 1rem; /* Thêm padding ngang */
-  text-align: left; /* Căn trái đẹp hơn */
+  padding: 0.75rem 1rem; 
+  text-align: left; 
   font-weight: 500;
   font-size: 0.95rem;
   color: #333;
@@ -104,47 +101,43 @@
 /* RIGHT SIDEBAR */
 .sidebar {
   flex: 1;
-  border: 1px solid #e0e0e0; /* Border rõ hơn */
-  background-color: #ffffff; /* Nền trắng sạch sẽ */
+  border: 1px solid #e0e0e0; 
+  background-color: #ffffff; 
   border-radius: 12px;
   padding: 1.5rem;
   height: fit-content;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Shadow rõ hơn */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
 
-  /* Trên mobile, nó sẽ chiếm 100% và căn giữa */
   width: 100%;
-  max-width: 380px; /* Giới hạn chiều rộng trên mobile */
-  margin: 0 auto; /* Căn giữa trên mobile */
+  max-width: 380px; 
+  margin: 0 auto; 
 }
 
-/* Đây là phần quan trọng */
 @media (min-width: 1024px) {
   .sidebar {
-    width: 360px; /* KÍCH CỠ CỐ ĐỊNH */
+    width: 360px; 
     max-width: 360px;
-    flex-shrink: 0; /* Ngăn sidebar bị co lại */
-    position: sticky; /* Dính lại khi cuộn */
-    top: 3rem; /* Cách top 3rem (bằng padding của container) */
+    flex-shrink: 0; 
+    position: sticky; 
+    top: 3rem; 
   }
 }
 
-/* Class bị thiếu trong file CSS gốc */
 .sidebarImage {
   width: 100%;
-  aspect-ratio: 16 / 9; /* Giữ tỉ lệ 16:9 */
-  object-fit: cover; /* Đảm bảo ảnh không bị méo */
-  border-radius: 8px; /* Bo góc ảnh */
+  aspect-ratio: 16 / 9; 
+  object-fit: cover; 
+  border-radius: 8px; 
   margin-bottom: 1.5rem;
-  background-color: #f0f0f0; /* Màu nền chờ khi ảnh load */
+  background-color: #f0f0f0; 
 }
 
 .sidebarTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 1.5rem; /* Tăng khoảng cách */
+  margin-bottom: 1.5rem; 
 }
 
-/* Căn chỉnh lại giá */
 .priceLabel {
   font-size: 1.1rem;
   color: #444;
@@ -156,30 +149,34 @@
 }
 
 .price {
-  color: #e10098;
-  font-size: 1.5rem; /* To rõ hơn */
+  color: #e6007e; /* <-- THAY ĐỔI Ở ĐÂY */
+  font-size: 1.5rem; 
   font-weight: 700;
 }
 
 .button {
-  background-color: #e10098;
+  background-color: #e6007e; /* <-- THAY ĐỔI Ở ĐÂY */
   color: #fff;
   border: none;
   width: 100%;
-  padding: 0.85rem 0; /* Nút cao hơn */
+  padding: 0.85rem 0; 
   border-radius: 6px;
   font-weight: 600;
-  font-size: 1rem; /* Cỡ chữ rõ ràng */
+  font-size: 1rem; 
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
+  
+  /* Quan trọng: Thêm để Link component hiển thị đúng */
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
 }
 
 .button:hover {
-  background-color: #c20084;
-  transform: scale(1.03); /* Hiệu ứng nhấn */
+  background-color: #c2006a; /* <-- THAY ĐỔI Ở ĐÂY (Màu đậm hơn) */
+  transform: scale(1.03); 
 }
 
-/* Thêm style cho Loading / Error */
 .loading,
 .error {
   display: flex;
@@ -192,5 +189,5 @@
 }
 
 .error {
-  color: #d93025; /* Màu đỏ cho lỗi */
+  color: #d93025; 
 }

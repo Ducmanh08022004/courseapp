@@ -58,7 +58,7 @@ function Exam() {
         userAnswer: answers[questionId],
       }));
 
-      const response = await axios.post('http://localhost:5000/api/user-exam/submit', 
+      const response = await axios.post('http://localhost:5000/api/exam-users/submit', 
         { examId: parseInt(examId), answers: formattedAnswers }, 
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -80,7 +80,7 @@ function Exam() {
         <h2 className={styles['result-title']}>Kết quả bài kiểm tra</h2>
         <p className={styles['result-details']}>Điểm số: {result.score} / {result.totalQuestions}</p>
         <p className={styles['result-details']}>Tỉ lệ đúng: {result.percent.toFixed(2)}%</p>
-        <button onClick={() => navigate(`/course/${courseId}`)} className={styles['submit-btn']}>
+        <button onClick={() => navigate(`/my-courses`)} className={styles['submit-btn']}>
           Quay lại khóa học
         </button>
       </div>
@@ -91,22 +91,25 @@ function Exam() {
     <div className={styles['exam-container']}>
       <h1 className={styles['exam-title']}>{exam.title}</h1>
       <form onSubmit={handleSubmit}>
-        {exam.Questions.map(q => (
+        {[...exam.Questions].sort((a, b) => a.questionId - b.questionId).map(q => (
           <div key={q.questionId} className={styles['question-card']}>
             <p className={styles['question-content']}>{q.content}</p>
             <div className={styles.answers}>
-              {q.answer.map(option => (
-                <label key={option} className={styles['answer-label']}>
-                  <input 
-                    type="radio" 
-                    name={`question-${q.questionId}`}
-                    value={option} 
-                    onChange={() => handleAnswerChange(q.questionId, option)}
-                    required
-                  />
-                  {option}
-                </label>
-              ))}
+              {q.answer.map((option, index) => {
+                const answerValue = String.fromCharCode(65 + index);
+                return (
+                  <label key={option} className={styles['answer-label']}>
+                    <input
+                      type="radio"
+                      name={`question-${q.questionId}`}
+                      value={answerValue}
+                      onChange={() => handleAnswerChange(q.questionId, answerValue)}
+                      required
+                    />
+                    {option}
+                  </label>
+                );
+              })}
             </div>
           </div>
         ))}

@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import styles from "./styles/CourseDetail.module.css";
 
+import { Link } from "react-router-dom";
+
 function CourseDetail() {
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -76,7 +78,9 @@ function CourseDetail() {
         <p className={styles.priceLabel}>
           Giá: <span className={styles.price}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)}</span>
         </p>
-        <button className={styles.button}>Mua ngay</button>
+        <Link to={`/payment/${course.courseId}`} className={styles.button}>
+          Mua ngay
+        </Link>
       </div>
     </div>
   );

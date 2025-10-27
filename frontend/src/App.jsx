@@ -7,6 +7,7 @@ import CourseDetailPage from "./pages/CourseDetailPage.jsx";
 import MyCoursesPage from "./pages/MyCoursesPage.jsx";
 import VideoListPage from "./pages/VideoListPage.jsx";
 import ExamPage from "./pages/ExamPage.jsx";
+import PaymentPage from "./pages/PaymentPage.jsx";
 
 
 
@@ -20,10 +21,11 @@ function App() {
           <Route path="/LoginPage" element={<LoginPage></LoginPage>}></Route>
           <Route path="/RegisterPage" element={<RegisterPage></RegisterPage>}></Route>
           <Route path="/ProfilePage" element={<ProfilePage></ProfilePage>}></Route>
-          <Route path="/courses/:id" element={<CourseDetailPage />} />
+          <Route path="/course/:id" element={<CourseDetailPage />} />
           <Route path="/my-courses" element={<MyCoursesPage />} />
-          <Route path="/courses/:courseId/videos" element={<VideoListPage />} />
+          <Route path="/course/:courseId/videos" element={<VideoListPage />} />
           <Route path="/course/:courseId/exam/:examId" element={<ExamPage />} />
+          <Route path="/payment/:courseId" element={<PaymentPage />} />
         </Routes> 
     </Router>
       

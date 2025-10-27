@@ -1,3 +1,5 @@
+/* Nội dung file: MyCourses.module.css (đã cập nhật) */
+
 .myCoursesContainer {
   padding: 2rem;
   max-width: 1200px;
@@ -7,13 +9,20 @@
 .myCoursesContainer h1 {
   text-align: center;
   margin-bottom: 2rem;
-  color: #333;
+  color: #e6007e; /* Thay đổi màu tiêu đề */
 }
 
 .loading, .error {
   text-align: center;
   font-size: 1.2rem;
   padding: 2rem;
+}
+
+.error {
+  color: #d93025; /* Thêm màu cho thông báo lỗi */
+  background-color: #fdf4f3;
+  border: 1px solid #d93025;
+  border-radius: 8px;
 }
 
 .courseGrid {
@@ -28,11 +37,13 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex; /* Thêm flex để căn chỉnh nội dung */
+  flex-direction: column; /* Sắp xếp nội dung theo chiều dọc */
 }
 
 .courseCard:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Tăng bóng mờ một chút */
 }
 
 .courseCard img {
@@ -43,24 +54,88 @@
 
 .courseInfo {
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Cho phép phần info này phát triển để lấp đầy thẻ */
 }
 
 .courseInfo h2 {
   font-size: 1.2rem;
   margin-bottom: 1rem;
   color: #333;
+  /* Đảm bảo tiêu đề không quá dài */
+  min-height: 2.4rem; /* Đặt chiều cao tối thiểu cho 2 dòng */
 }
+
+.progressContainer {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  height: 10px;
+  margin-bottom: 0.5rem; /* Giảm margin một chút */
+}
+
+.progressBar {
+  background-color: #e6007e; /* Thay đổi màu thanh tiến độ */
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease-in-out;
+}
+
+.courseInfo p {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* --- Phần Nút và Bài kiểm tra --- */
 
 .viewCourseButton {
   display: inline-block;
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
+  padding: 0.7rem 1rem; /* Tăng padding một chút */
+  background-color: #e6007e; /* Màu chủ đạo */
   color: #fff;
   text-decoration: none;
   border-radius: 4px;
   transition: background-color 0.3s ease;
+  text-align: center;
+  font-weight: 600;
 }
 
 .viewCourseButton:hover {
-  background-color: #0056b3;
+  background-color: #c2006a; /* Màu đậm hơn khi hover */
+}
+
+.examSection {
+  margin-top: auto; /* Đẩy phần này xuống cuối thẻ */
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.examSection h4 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.examSection p {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* Style cho nút "Làm bài kiểm tra" - Dạng nút thứ cấp (outline) */
+.viewExamButton {
+  display: inline-block;
+  padding: 0.7rem 1rem;
+  background-color: #fff;
+  color: #e6007e; /* Màu chữ là màu chủ đạo */
+  border: 1px solid #e6007e; /* Viền màu chủ đạo */
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-align: center;
+  font-weight: 600;
+}
+
+.viewExamButton:hover {
+  background-color: #fceef7; /* Nền hồng rất nhạt khi hover */
+  color: #c2006a; /* Màu chữ đậm hơn */
 }
