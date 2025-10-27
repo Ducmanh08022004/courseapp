@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Course from "./Course";
 import styles from "./styles/CourseList.module.css";
+import { SearchContext } from "./SearchContext"; // import context
 
 function CourseList() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { searchTerm } = useContext(SearchContext); // lấy search term từ Navbar
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -32,18 +34,27 @@ function CourseList() {
     return <div className={styles.error}>{error}</div>;
   }
 
+  // Lọc khóa học dựa trên searchTerm
+  const filteredCourses = courses.filter((course) =>
+    course.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className={styles.courseList}>
-      {courses.map((course) => (
-        <Course
-          key={course.courseId}
-          id={course.courseId}
-          title={course.title}
-          description={course.description}
-          image={`http://localhost:5000${course.imageUrl}`}
-          price={course.price}
-        />
-      ))}
+      {filteredCourses.length > 0 ? (
+        filteredCourses.map((course) => (
+          <Course
+            key={course.courseId}
+            id={course.courseId}
+            title={course.title}
+            description={course.description}
+            image={`http://localhost:5000${course.imageUrl}`}
+            price={course.price}
+          />
+        ))
+      ) : (
+        <p>Không tìm thấy khóa học phù hợp.</p>
+      )}
     </div>
   );
 }

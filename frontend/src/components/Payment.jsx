@@ -27,43 +27,51 @@ const Payment = () => {
   }, [courseId]);
 
   const handlePayment = async () => {
-    // --- THÊM PHẦN XÁC NHẬN TẠI ĐÂY ---
-    const isConfirmed = window.confirm(
-      `Bạn có chắc chắn muốn thanh toán cho khóa học "${course.title}"?`
+  const isConfirmed = window.confirm(
+    `Bạn có chắc chắn muốn thanh toán cho khóa học "${course.title}"?`
+  );
+  if (!isConfirmed) return;
+
+  setLoading(true);
+  setError(null);
+
+  try {
+    const token = localStorage.getItem('token');
+
+    // 1. Create Order
+    const orderRes = await axios.post(
+      'http://localhost:5000/api/orders',
+      { courseId },
+      { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    // Nếu người dùng không đồng ý (nhấn "Cancel"), dừng hàm tại đây
-    if (!isConfirmed) {
-      return;
+    const { orderId } = orderRes.data;
+
+    // 2. Process Payment
+    await axios.post(
+      'http://localhost:5000/api/payments',
+      { orderId, method: 'momo' },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    alert('Thanh toán thành công! Bạn sẽ được chuyển đến khóa học của mình.');
+    navigate('/my-courses');
+
+  } catch (err) {
+    console.error(err);
+
+    // Kiểm tra nếu server trả về thông báo cụ thể
+    if (err.response && err.response.data && err.response.data.msg) {
+      setError(err.response.data.msg);
+    } else if (err.response && err.response.status === 400) {
+      setError('Khóa học này đã được mua hoặc có đơn hàng đang chờ thanh toán.');
+    } else {
+      setError('Thanh toán thất bại. Vui lòng thử lại.');
     }
-    // ------------------------------------
-
-    setLoading(true);
-    setError(null);
-    try {
-      const token = localStorage.getItem('token');
-      // 1. Create Order
-      const orderRes = await axios.post('http://localhost:5000/api/orders', { courseId }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      const { orderId } = orderRes.data;
-
-      // 2. Process Payment
-      await axios.post('http://localhost:5000/api/payments', { orderId, method: 'momo' }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      // 3. Redirect to My Courses
-      navigate('/my-courses');
-
-    } catch (err) {
-      setError('Payment failed. Please try again.');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  } finally {
+    setLoading(false);
+  }
+};
   if (!course) {
     // Sử dụng class .loading từ file CSS
     return <div className={styles.loading}>Loading course details...</div>;

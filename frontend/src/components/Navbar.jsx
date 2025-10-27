@@ -1,15 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import styles from "./styles/Navbar.module.css";
 import { IoSearch } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { SearchContext } from "./SearchContext"; // Context để share searchTerm
 
 function Navbar() {
   const [openMenu, setOpenMenu] = useState(null);
-  const [username, setUsername] = useState(null); // ✅ lưu trạng thái người dùng
+  const [username, setUsername] = useState(null);
+  const [inputValue, setInputValue] = useState(""); // input search
+  const { setSearchTerm } = useContext(SearchContext); // từ context
   const navigate = useNavigate();
 
-  // 🔍 Khi Navbar được render, kiểm tra token trong localStorage
+  // Khi Navbar được render, kiểm tra token trong localStorage
   useEffect(() => {
     const token = localStorage.getItem("token");
     const savedUsername = localStorage.getItem("username");
@@ -20,7 +23,16 @@ function Navbar() {
     }
   }, []);
 
-  // 🔁 Khi người dùng đăng xuất
+  // Debounce search 300ms
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setSearchTerm(inputValue);
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [inputValue, setSearchTerm]);
+
+  // Khi người dùng đăng xuất
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
@@ -44,40 +56,26 @@ function Navbar() {
               <img src="/Logo.png" alt="Logo" height="50" />
             </Link>
           </div>
-        
-          {/* Subjects 
-          <div className={styles.courseList}>
-            <div
-              className={styles.dropdown}
-              onClick={() => handleToggleMenu("subjects")}
-            >
-              <span>Khóa học ▾</span>
-              {openMenu === "subjects" && (
-                <ul className={`${styles.dropdownMenu} ${styles.show}`}>
-                  <li>Tiếng Anh</li>
-                  <li>Tiếng Nhật</li>
-                  <li>Tiếng Trung</li>
-                  <li>Tiếng Hàn</li>
-                </ul>
-              )}
-            </div>
-          </div>
-            */}
+
           {username ? (
             <div className={styles.courseList}>
-              <Link to="/my-courses" className={styles.dropdown} style={{ textDecoration: "none", color: "#e6007e"}}>
+              <Link
+                to="/my-courses"
+                className={styles.dropdown}
+                style={{ textDecoration: "none", color: "#e6007e" }}
+              >
                 Khóa học của tôi
               </Link>
             </div>
-            ) : null
-          }
+          ) : null}
 
+          {/* Search bar */}
           <div className={styles.searchBar}>
             <input
               type="text"
-              id="search"
-              name="search"
               placeholder="Tìm khóa học"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
             />
             <button type="submit">
               <IoSearch size={24} />
@@ -88,7 +86,6 @@ function Navbar() {
         {/* ==== RIGHT SECTION ==== */}
         <div className={styles.rightSection}>
           {!username ? (
-            // ✅ Nếu chưa đăng nhập
             <>
               <Link to="/LoginPage" className={styles.login}>
                 Đăng nhập
@@ -98,9 +95,7 @@ function Navbar() {
               </Link>
             </>
           ) : (
-            // ✅ Nếu đã đăng nhập
             <div className={styles.userMenu}>
-              {/* 1. THÊM onClick VÀO ĐÂY */}
               <span
                 className={styles.username}
                 onClick={() => handleToggleMenu("user")}
@@ -108,12 +103,15 @@ function Navbar() {
                 <FaRegUser /> {username} ▾
               </span>
 
-              {/* THÊM ĐIỀU KIỆN RENDER Ở ĐÂY */}
               {openMenu === "user" && (
-                // (Và sửa lại cú pháp className)
                 <ul className={`${styles.dropdownMenu} ${styles.show}`}>
                   <li>
-                    <Link to="/ProfilePage" style={{ textDecoration: "none", color: "#e6007e"}}>Xem thông tin</Link>
+                    <Link
+                      to="/ProfilePage"
+                      style={{ textDecoration: "none", color: "#e6007e" }}
+                    >
+                      Xem thông tin
+                    </Link>
                   </li>
                   <li onClick={handleLogout}>Đăng xuất</li>
                 </ul>
