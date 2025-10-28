@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from "react";
+import { SearchContext } from "./SearchContext.jsx";
 import axios from "axios";
 import Course from "./Course";
 import styles from "./styles/CourseList.module.css";
-import { SearchContext } from "./SearchContext"; // import context
 
 function CourseList() {
   const [courses, setCourses] = useState([]);

@@ -20,6 +20,8 @@ function Login() {
             localStorage.setItem("username", username);
             localStorage.setItem("userId", res.data.userId); // Lưu userId nếu cần
             localStorage.setItem("fullname", res.data.fullname);
+            localStorage.setItem("role", res.data.user.role); 
+
 
             alert("Đăng nhập thành công!");
 

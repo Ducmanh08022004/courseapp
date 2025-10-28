@@ -1,0 +1,79 @@
+/* Nội dung file: ResourceManager.module.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.container {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 2rem;
+  font-family: "Inter", sans-serif;
+  
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Tăng min-width lên một chút cho đẹp */
+  gap: 2.5rem; /* Tăng khoảng cách giữa các box */
+}
+
+.container h2 {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #e6007e;
+  margin-bottom: 2.5rem;
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+.resourceSection {
+  background-color: #fff;
+  border-radius: 16px; /* Bo tròn nhiều hơn cho hiện đại */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Shadow mềm mại hơn */
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.resourceSection:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 15px 35px rgba(230, 0, 126, 0.15); /* Shadow màu hồng nhạt khi hover */
+}
+
+/* Style quan trọng cho component Link */
+.actionButton {
+  /* Màu sắc theo theme */
+  background-color: #e6007e;
+  color: #fff;
+  
+  /* Định dạng font */
+  font-family: "Inter", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  
+  /* Kích thước và khoảng cách */
+  padding: 1rem 2rem;
+  width: 100%;
+  border-radius: 12px;
+  border: none;
+  
+  /* CÁC THUỘC TÍNH QUAN TRỌNG CHO LINK */
+  display: block;           /* Để Link hoạt động như một khối (full width) */
+  text-decoration: none;    /* Loại bỏ gạch chân mặc định của thẻ a */
+  text-align: center;       /* Căn giữa chữ */
+  box-sizing: border-box;   /* Đảm bảo padding không làm vỡ layout */
+  
+  /* Hiệu ứng */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 12px rgba(230, 0, 126, 0.3); /* Thêm shadow nhẹ cho nút */
+}
+
+.actionButton:hover {
+  background-color: #d10073; /* Màu đậm hơn khi hover */
+  box-shadow: 0 6px 15px rgba(230, 0, 126, 0.4); /* Tăng shadow khi hover */
+  transform: scale(1.02); /* Phóng to nhẹ khi hover */
+}
+
+.actionButton:active {
+  transform: scale(0.98); /* Hiệu ứng nhấn nút thực tế */
+}

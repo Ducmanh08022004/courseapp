@@ -1,0 +1,255 @@
+/* === BẮT ĐẦU: Style gốc từ QuestionManagement.module.css === */
+
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.addButton {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.addButton:hover {
+  background-color: #45a049;
+}
+
+.addButton:before {
+  content: "+";
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.tableContainer {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  color: #2c3e50;
+  padding: 1rem;
+  font-weight: 600;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  color: #2c3e50;
+}
+
+.table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.editButton,
+.deleteButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.editButton {
+  background-color: #3498db; /* Blue */
+  color: white;
+}
+
+.editButton:hover {
+  background-color: #2980b9;
+}
+
+.deleteButton {
+  background-color: #e74c3c; /* Red */
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: #c0392b;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+.error {
+  background-color: #fff3f3;
+  color: #e74c3c;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  border: 1px solid #ffd7d7;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error:before {
+  content: "⚠️";
+}
+
+/* Question content column styles */
+.table td:nth-child(2) {
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Correct answer column styles */
+.table td:nth-child(3) {
+  text-align: center;
+  font-weight: 600;
+  color: #27ae60;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    margin: 1rem;
+    padding: 0;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .table th:nth-child(1),
+  .table td:nth-child(1) {
+    display: none;
+  }
+
+  .table td:nth-child(2) {
+    max-width: 200px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .editButton,
+  .deleteButton {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Animation for loading */
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.loading {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* === KẾT THÚC: Style gốc từ QuestionManagement.module.css === */
+
+
+/* === BẮT ĐẦU: Style thêm vào cho riêng ExamManagement === */
+
+/* Style cho nút "Quản lý câu hỏi" (dùng màu cam cho khác biệt) */
+.manageButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  background-color: #f39c12; /* Orange */
+  color: white;
+}
+
+.manageButton:hover {
+  background-color: #d68910;
+}
+
+/* Thêm responsive cho nút .manageButton */
+@media (max-width: 768px) {
+  .manageButton {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Style cho badge đếm số câu hỏi */
+.examCount {
+  background-color: #3498db; /* Blue (giống nút Edit) */
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Style cho trạng thái rỗng (khi chưa có bài thi) */
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: #7f8c8d;
+  background-color: #f8f9fa; /* Giống màu nền header của table */
+  border-radius: 8px; /* Giống .tableContainer */
+}
+
+.emptyState h3 {
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.emptyState p {
+  margin-bottom: 2rem;
+}

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './styles/MyCourses.module.css';
 
 const MyCourses = () => {
   const [courses, setCourses] = useState([]);
   const [exams, setExams] = useState({});
+  const [showExamModal, setShowExamModal] = useState(false);
+  const [examOptions, setExamOptions] = useState([]);
+  const [activeCourseForExam, setActiveCourseForExam] = useState(null);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -25,7 +29,7 @@ const MyCourses = () => {
           },
         });
 
-        setCourses(res.data);
+        setCourses(res.data || []);
       } catch (err) {
         setError('Không thể tải danh sách khóa học. Vui lòng thử lại sau.');
         console.error(err);
@@ -50,11 +54,11 @@ const MyCourses = () => {
                 Authorization: `Bearer ${token}`,
               },
             });
-            if (res.data.length > 0) {
-              examsData[course.courseId] = res.data[0];
-            }
+            // store array of exams (may be empty)
+            examsData[course.courseId] = res.data;
           } catch (err) {
             console.error(`Failed to fetch exam for course ${course.courseId}`, err);
+            examsData[course.courseId] = [];
           }
         }
         setExams(examsData);
@@ -65,6 +69,43 @@ const MyCourses = () => {
       fetchExamsForCourses();
     }
   }, [courses, loading]);
+
+  // Open exam picker: if multiple exams show modal, if one exam navigate directly
+  const openExamPicker = async (courseId) => {
+    setActiveCourseForExam(courseId);
+    const token = localStorage.getItem('token');
+    try {
+      let options = exams[courseId];
+      if (!options) {
+        const res = await axios.get(`http://localhost:5000/api/exams/course/${courseId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        options = res.data;
+        setExams(prev => ({ ...prev, [courseId]: options }));
+      }
+
+      if (!options || options.length === 0) {
+        alert('Chưa có bài kiểm tra cho khóa học này.');
+        return;
+      }
+
+      if (options.length === 1) {
+        navigate(`/course/${courseId}/exam/${options[0].examId}`);
+        return;
+      }
+
+      setExamOptions(options);
+      setShowExamModal(true);
+    } catch (err) {
+      console.error(err);
+      alert('Không thể tải danh sách bài kiểm tra.');
+    }
+  };
+
+  const selectExam = (examId) => {
+    setShowExamModal(false);
+    navigate(`/course/${activeCourseForExam}/exam/${examId}`);
+  };
 
   if (loading) {
     return <div className={styles.loading}>Đang tải...</div>;
@@ -91,8 +132,15 @@ const MyCourses = () => {
                 <Link to={`/course/${course.courseId}/videos`} className={styles.viewCourseButton}>Vào học</Link>
                 <div className={styles.examSection}>
                   <h4>Bài kiểm tra</h4>
-                  {exams[course.courseId] ? (
-                    <Link to={`/course/${course.courseId}/exam/${exams[course.courseId].examId}`} className={styles.viewExamButton}>Làm bài kiểm tra</Link>
+                  {exams[course.courseId] && exams[course.courseId].length > 0 ? (
+                    <>
+                      <button
+                        className={styles.viewExamButton}
+                        onClick={() => openExamPicker(course.courseId)}
+                      >
+                        Làm bài kiểm tra
+                      </button>
+                    </>
                   ) : (
                     <p>Chưa có bài kiểm tra.</p>
                   )}
@@ -103,6 +151,28 @@ const MyCourses = () => {
         </div>
       ) : (
         <p>Bạn chưa đăng ký khóa học nào.</p>
+      )}
+
+      {showExamModal && (
+        <div className={styles.modalOverlay} onClick={() => setShowExamModal(false)}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <h3>Chọn bài kiểm tra</h3>
+            <ul className={styles.examList}>
+              {examOptions.map(ex => (
+                <li key={ex.examId} className={styles.examItem}>
+                  <div>
+                    <strong>{ex.title}</strong>
+                    <div className={styles.examMeta}>{(ex.Questions?.length || 0) + ' câu hỏi'}</div>
+                  </div>
+                  <button className={styles.selectButton} onClick={() => selectExam(ex.examId)}>Làm bài</button>
+                </li>
+              ))}
+            </ul>
+            <div style={{ textAlign: 'right', marginTop: '1rem' }}>
+              <button className={styles.closeButton} onClick={() => setShowExamModal(false)}>Đóng</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
