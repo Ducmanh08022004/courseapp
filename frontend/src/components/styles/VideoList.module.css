@@ -1,55 +1,155 @@
+/* ===== Font hiện đại & cấu hình gốc ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+    --primary: #e6007e;
+    --primary-dark: #b30065;
+    --text: #333;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --hover-shadow: 0 12px 32px rgba(230, 0, 126, 0.15);
+    --radius: 16px;
+    --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .container {
-    padding: 2rem;
+    padding: 3rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    font-family: "Inter", sans-serif;
+    animation: fadeIn 0.6s ease both;
 }
 
 .title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: #333;
+    font-size: 2.4rem;
+    margin-bottom: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary), #ff66b0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    letter-spacing: -0.5px;
 }
 
-.loading, .error {
+.loading,
+.error {
     text-align: center;
-    font-size: 1.2rem;
-    padding: 2rem;
+    font-size: 1.25rem;
+    padding: 3rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    color: var(--text);
+}
+
+.error {
+    color: #d93025;
+    background: #fff4f4;
+    border: 1px solid #ffcaca;
 }
 
 .videoGrid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 2.5rem;
+    justify-items: center;
 }
 
 .videoCard {
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
     overflow: hidden;
-    transition: transform 0.2s;
-    
+    transition: var(--transition);
     display: flex;
     flex-direction: column;
-    
-    /* Thay đổi: Tăng kích thước từ 50% lên 65% */
-    max-width: 65%;
-    justify-self: center;
+    position: relative;
+    cursor: pointer;
+    animation: fadeUp 0.6s ease both;
+}
+
+.videoCard::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--primary), #ff66b0);
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 0;
+}
+
+.videoCard:hover::before {
+    opacity: 0.05;
 }
 
 .videoCard:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow: var(--hover-shadow);
 }
 
 .videoPlayer {
     width: 100%;
     height: auto;
-    order: 2;
+    border-bottom: 1px solid #f0f0f0;
+    z-index: 1;
 }
 
 .videoTitle {
-    padding: 1rem;
-    font-weight: bold;
-    color: #555;
-    order: 1;
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    color: var(--text);
+    font-size: 1.1rem;
+    z-index: 1;
+    background-color: #fff;
+    transition: color 0.3s ease;
+}
+
+.videoCard:hover .videoTitle {
+    color: var(--primary);
+}
+
+/* ===== Animation ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .container {
+        padding: 2rem 1rem;
+    }
+
+    .title {
+        font-size: 1.8rem;
+    }
+
+    .videoGrid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .videoCard {
+        width: 100%;
+    }
 }

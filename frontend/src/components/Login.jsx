@@ -12,13 +12,12 @@ function Login() {
         try {
             const res = await axios.post('http://localhost:5000/api/auth/login', { username, password });
             
-            // ✅ Giả sử backend trả về token
             const token = res.data.token;
 
-            // ✅ Lưu token và thông tin user vào localStorage
+            // Lưu token và thông tin user vào localStorage
             localStorage.setItem("token", token);
             localStorage.setItem("username", username);
-            localStorage.setItem("userId", res.data.userId); // Lưu userId nếu cần
+            localStorage.setItem("userId", res.data.userId); 
             localStorage.setItem("fullname", res.data.fullname);
             localStorage.setItem("role", res.data.user.role); 
 
@@ -48,7 +47,7 @@ function Login() {
                     <input type="password" id="password" className={styles.input} name="password" placeholder="Nhập mật khẩu" onChange={e => setPassword(e.target.value)}/>
                 </div>
                 <div className={styles.buttonRow}>
-                    <Link to="/RegisterPage" className={styles.subLink}>Đăng kí</Link>
+                    <Link to="/RegisterPage" className={styles.subLink}>Đăng ký</Link>
                     <button type="button" className={styles.btn} onClick={handleLogin}>Đăng nhập</button> 
                 </div>
             </form>

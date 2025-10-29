@@ -1,44 +1,75 @@
+
+
+:root {
+  --primary: #007bff;
+  --primary-dark: #0056b3;
+  --bg-modal: #ffffff;
+  --bg-blur: rgba(0, 0, 0, 0.55);
+  --text-main: #222;
+  --text-sub: #555;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* 🪄 Lớp phủ mờ nền */
 .modalBackdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: var(--bg-blur);
+  backdrop-filter: blur(6px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  animation: fadeIn 0.35s ease forwards;
 }
 
+/* 💎 Khung nội dung modal */
 .modalContent {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
+  background: var(--bg-modal);
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
   width: 500px;
   max-width: 90%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-soft);
+  animation: scaleIn 0.35s ease forwards;
+  transform-origin: center;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
 }
 
+/* 📋 Form group */
 .formGroup {
   margin-bottom: 1.5rem;
 }
 
 .formGroup label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 0.95rem;
 }
 
 .formGroup input,
 .formGroup textarea {
   width: 100%;
-  padding: 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid #ddd;
+  border-radius: 10px;
   font-size: 1rem;
+  background: #fafafa;
+  transition: all 0.25s ease;
 }
 
+.formGroup input:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+  background: #fff;
+}
+
+/* ⚙️ Các nút hành động */
 .formActions {
   display: flex;
   justify-content: flex-end;
@@ -46,29 +77,60 @@
   margin-top: 2rem;
 }
 
-.saveButton, .cancelButton {
-  padding: 0.8rem 1.5rem;
+/* 🎨 Nút cơ bản */
+.saveButton,
+.cancelButton {
+  padding: 0.9rem 1.7rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.3s ease;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  letter-spacing: 0.3px;
 }
 
+/* 💾 Save */
 .saveButton {
-  background-color: #007bff;
-  color: white;
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
 }
 
 .saveButton:hover {
-  background-color: #0056b3;
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.35);
 }
 
+.saveButton:active {
+  transform: scale(0.97);
+}
+
+/* ❌ Cancel */
 .cancelButton {
-  background-color: #f1f1f1;
+  background: #f3f3f3;
   color: #333;
 }
 
 .cancelButton:hover {
-  background-color: #ddd;
+  background: #e2e2e2;
+  transform: translateY(-2px);
+}
+
+/* ✨ Animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

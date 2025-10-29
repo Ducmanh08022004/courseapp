@@ -1,24 +1,49 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 .container {
   max-width: 600px;
   margin: 6rem auto;
-  background-color: #fff;
+  background: rgba(255, 255, 255, 0.9);
   padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(225, 0, 152, 0.1);
+  backdrop-filter: blur(8px);
   font-family: "Inter", sans-serif;
-  color: #222;
+  color: #1e1e1e;
+  animation: fadeIn 0.6s ease forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(225, 0, 152, 0.15);
 }
 
 .header {
-  font-size: 1.75rem;
+  font-size: 1.9rem;
   font-weight: 700;
+  color: #e10098;
   margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.header::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 3px;
+  margin: 10px auto 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #ff90c2, #e10098);
+  animation: expand 0.8s ease;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.75rem;
 }
 
 .formGroup {
@@ -29,35 +54,87 @@
 .label {
   font-weight: 600;
   margin-bottom: 0.5rem;
+  color: #444;
 }
 
 .input {
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 0.75rem 1rem;
+  border: 1px solid #e3e3e3;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: all 0.25s ease;
+  background-color: #fafafa;
+}
+
+.input:hover {
+  border-color: #e10098;
+  background-color: #fff;
 }
 
 .input:focus {
   border-color: #e10098;
-  box-shadow: 0 0 0 2px rgba(225, 0, 152, 0.15);
+  box-shadow: 0 0 0 4px rgba(225, 0, 152, 0.15);
+  background-color: #fff;
 }
 
 .button {
-  background-color: #e10098;
+  background: linear-gradient(90deg, #ff6fb5, #e10098);
   color: white;
   border: none;
-  border-radius: 6px;
-  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  padding: 0.9rem 1.8rem;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.05rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  align-self: flex-start;
+  align-self: center;
+  letter-spacing: 0.3px;
+  box-shadow: 0 6px 14px rgba(225, 0, 152, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
 }
 
 .button:hover {
-  background-color: #c20084;
+  transform: scale(1.03);
+  filter: brightness(1.05);
+  box-shadow: 0 8px 18px rgba(225, 0, 152, 0.25);
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes expand {
+  from {
+    width: 0;
+  }
+  to {
+    width: 70px;
+  }
+}
+
+/* 🌿 Responsive */
+@media (max-width: 480px) {
+  .container {
+    padding: 1.75rem;
+    margin: 3rem 1rem;
+  }
+
+  .header {
+    font-size: 1.6rem;
+  }
+
+  .button {
+    width: 100%;
+  }
 }

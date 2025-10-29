@@ -1,119 +1,169 @@
-/* Nội dung file: MyCourses.module.css (đã cập nhật) */
+
 
 .myCoursesContainer {
-  padding: 2rem;
+  padding: 2.5rem;
   max-width: 1200px;
   margin: 0 auto;
+  animation: fadeIn 0.8s ease-in-out;
 }
 
 .myCoursesContainer h1 {
   text-align: center;
-  margin-bottom: 2rem;
-  color: #e6007e; /* Thay đổi màu tiêu đề */
+  margin-bottom: 2.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #e6007e;
+  letter-spacing: 1px;
+  position: relative;
 }
 
-.loading, .error {
+.myCoursesContainer h1::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff85c1, #e6007e);
+  margin: 0.5rem auto 0;
+  border-radius: 3px;
+}
+
+.loading,
+.error {
   text-align: center;
   font-size: 1.2rem;
   padding: 2rem;
 }
 
 .error {
-  color: #d93025; /* Thêm màu cho thông báo lỗi */
-  background-color: #fdf4f3;
-  border: 1px solid #d93025;
-  border-radius: 8px;
+  color: #d93025;
+  background-color: #fff0f0;
+  border: 1px solid #f7b0b0;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(217, 48, 37, 0.1);
 }
 
+/* 🧱 Lưới khóa học */
 .courseGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   gap: 2rem;
 }
 
+/* 🪄 Thẻ khóa học */
 .courseCard {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex; /* Thêm flex để căn chỉnh nội dung */
-  flex-direction: column; /* Sắp xếp nội dung theo chiều dọc */
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s ease;
+  animation: slideUp 0.7s ease both;
 }
 
 .courseCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Tăng bóng mờ một chút */
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(230, 0, 126, 0.2);
 }
 
 .courseCard img {
   width: 100%;
   height: 180px;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.courseCard:hover img {
+  transform: scale(1.05);
 }
 
 .courseInfo {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Cho phép phần info này phát triển để lấp đầy thẻ */
+  flex-grow: 1;
 }
 
 .courseInfo h2 {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
+  font-weight: 600;
   margin-bottom: 1rem;
-  color: #333;
-  /* Đảm bảo tiêu đề không quá dài */
-  min-height: 2.4rem; /* Đặt chiều cao tối thiểu cho 2 dòng */
+  color: #222;
+  line-height: 1.4;
+  min-height: 2.4rem;
 }
 
 .progressContainer {
-  background-color: #e0e0e0;
-  border-radius: 4px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
   height: 10px;
-  margin-bottom: 0.5rem; /* Giảm margin một chút */
+  overflow: hidden;
+  margin-bottom: 1rem;
 }
 
 .progressBar {
-  background-color: #e6007e; /* Thay đổi màu thanh tiến độ */
+  background: linear-gradient(90deg, #ff6fb0, #e6007e);
   height: 100%;
-  border-radius: 4px;
-  transition: width 0.5s ease-in-out;
+  width: 0;
+  border-radius: 5px;
+  animation: growBar 1s ease forwards;
 }
 
 .courseInfo p {
   margin-bottom: 1rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #555;
 }
 
-/* --- Phần Nút và Bài kiểm tra --- */
-
-.viewCourseButton {
+/* ✨ Nút hành động */
+.viewCourseButton,
+.viewExamButton {
   display: inline-block;
-  padding: 0.7rem 1rem; /* Tăng padding một chút */
-  background-color: #e6007e; /* Màu chủ đạo */
-  color: #fff;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-  text-align: center;
+  padding: 0.75rem 1.2rem;
   font-weight: 600;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.35s ease;
+  cursor: pointer;
+}
+
+/* Nút chính */
+.viewCourseButton {
+  background: linear-gradient(90deg, #ff6fb0, #e6007e);
+  color: #fff;
+  border: none;
 }
 
 .viewCourseButton:hover {
-  background-color: #c2006a; /* Màu đậm hơn khi hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(230, 0, 126, 0.3);
 }
 
+/* Nút phụ (viền hồng) */
+.viewExamButton {
+  background: #fff;
+  color: #e6007e;
+  border: 2px solid #e6007e;
+}
+
+.viewExamButton:hover {
+  background: #fff5fa;
+  color: #c2006a;
+  transform: translateY(-2px);
+}
+
+/* Phần bài kiểm tra */
 .examSection {
-  margin-top: auto; /* Đẩy phần này xuống cuối thẻ */
-  padding-top: 1rem;
+  margin-top: auto;
+  padding-top: 1.2rem;
   border-top: 1px solid #f0f0f0;
 }
 
 .examSection h4 {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   color: #333;
+  font-weight: 600;
 }
 
 .examSection p {
@@ -121,67 +171,56 @@
   color: #777;
 }
 
-/* Style cho nút "Làm bài kiểm tra" - Dạng nút thứ cấp (outline) */
-.viewExamButton {
-  display: inline-block;
-  padding: 0.7rem 1rem;
-  background-color: #fff;
-  color: #e6007e; /* Màu chữ là màu chủ đạo */
-  border: 1px solid #e6007e; /* Viền màu chủ đạo */
-  text-decoration: none;
-  border-radius: 4px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  text-align: center;
-  font-weight: 600;
-}
-
-.viewExamButton:hover {
-  background-color: #fceef7; /* Nền hồng rất nhạt khi hover */
-  color: #c2006a; /* Màu chữ đậm hơn */
-}
-
-/* Modal for exam picker */
+/* 🪟 Modal */
 .modalOverlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.5);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.4s ease;
 }
 
 .modalContent {
   background: #fff;
-  padding: 1.25rem;
-  border-radius: 8px;
+  padding: 1.8rem;
+  border-radius: 16px;
   width: 90%;
   max-width: 560px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  animation: scaleIn 0.4s ease;
 }
 
+/* Danh sách bài kiểm tra */
 .examList {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
   max-height: 60vh;
-  overflow: auto;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .examItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem;
+  padding: 1rem;
   border: 1px solid #f0f0f0;
-  border-radius: 6px;
+  border-radius: 10px;
   background: #fafafa;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.examItem:hover {
+  background: #fff0f8;
+  transform: scale(1.02);
 }
 
 .examMeta {
@@ -190,24 +229,53 @@
   margin-top: 0.25rem;
 }
 
-.selectButton {
-  background: #e6007e;
-  color: #fff;
+/* Nút chọn và đóng */
+.selectButton,
+.closeButton {
   border: none;
-  padding: 0.45rem 0.85rem;
-  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
-.selectButton:hover { background: #c2006a; }
+.selectButton {
+  background: linear-gradient(90deg, #ff6fb0, #e6007e);
+  color: #fff;
+}
+
+.selectButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(230, 0, 126, 0.25);
+}
 
 .closeButton {
-  background: #f0f0f0;
+  background: #f3f3f3;
   color: #333;
-  border: none;
-  padding: 0.5rem 0.8rem;
-  border-radius: 6px;
-  cursor: pointer;
 }
 
-.closeButton:hover { background: #e0e0e0; }
+.closeButton:hover {
+  background: #e6e6e6;
+}
+
+/* 🌈 Hiệu ứng Animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes growBar {
+  from { width: 0; }
+  to { width: var(--progress, 70%); } /* có thể set dynamic */
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

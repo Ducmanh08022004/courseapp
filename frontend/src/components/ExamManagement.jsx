@@ -140,9 +140,6 @@ function ExamManagement() {
           <div className={styles.emptyState}>
             <h3>Chưa có bài kiểm tra nào</h3>
             <p>Hãy thêm bài kiểm tra đầu tiên cho khóa học này</p>
-            <button onClick={handleAddExam} className={styles.addButton}>
-              Thêm bài kiểm tra
-            </button>
           </div>
         )}
       </div>

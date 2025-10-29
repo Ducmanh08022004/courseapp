@@ -1,104 +1,134 @@
-/* Nội dung file: Exam.module.css (đã cập nhật) */
+
 
 .exam-container {
   max-width: 800px;
   margin: 2rem auto;
-  padding: 2rem;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  font-family: 'Inter', sans-serif;
+  animation: fadeIn 0.4s ease;
 }
 
 .exam-title {
   text-align: center;
-  color: #e6007e; /* Thay đổi màu tiêu đề */
+  color: #e6007e;
+  font-size: 2rem;
+  font-weight: 700;
   margin-bottom: 2rem;
+  letter-spacing: 0.5px;
 }
 
+/* 🧩 Câu hỏi */
 .question-card {
   background-color: #fff;
   padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  border-radius: 8px;
-  /* Thêm một đường viền trái để tạo điểm nhấn */
-  border-left: 4px solid #e6007e; 
+  margin-bottom: 1.75rem;
+  border-radius: 12px;
+  border-left: 5px solid #e6007e;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.question-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 .question-content {
   font-size: 1.1rem;
   margin-bottom: 1rem;
-  color: #444;
+  color: #333;
+  font-weight: 500;
 }
 
+/* 🧠 Danh sách câu trả lời */
 .answers {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .answer-label {
-  display: block;
-  padding: 0.75rem;
-  background-color: #f1f1f1;
-  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  background-color: #f8f8f8;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+  font-size: 1rem;
 }
 
 .answer-label:hover {
-  /* Một màu hồng rất nhạt khi hover */
-  background-color: #fceef7; 
+  background-color: #fceef7;
+  border-color: #f8bcd6;
 }
 
 .answer-label input[type="radio"] {
-  margin-right: 0.5rem;
-  /* Dùng accent-color để đổi màu radio button khi được chọn */
-  accent-color: #e6007e; 
+  accent-color: #e6007e;
+  transform: scale(1.2);
 }
 
+/* 🚀 Nút nộp bài */
 .submit-btn {
   display: block;
   width: 100%;
   padding: 1rem;
-  background-color: #e6007e; /* Màu chủ đạo cho nút chính */
+  background-color: #e6007e;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   font-size: 1.2rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  box-shadow: 0 4px 12px rgba(230, 0, 126, 0.3);
+  transition: all 0.3s ease;
 }
 
 .submit-btn:hover {
-  background-color: #c2006a; /* Màu đậm hơn khi hover */
+  background-color: #c2006a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(230, 0, 126, 0.4);
 }
 
-/* ----- Kết quả ----- */
+.submit-btn:active {
+  transform: scale(0.97);
+}
+
+/* 🏆 Kết quả */
 .result-container {
   max-width: 800px;
   margin: 2rem auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   text-align: center;
+  animation: fadeIn 0.4s ease;
 }
 
 .result-title {
-  color: #e6007e; /* Đổi màu tiêu đề kết quả */
+  color: #e6007e;
   font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 .result-details {
   font-size: 1.2rem;
   color: #333;
+  font-weight: 500;
 }
 
-/* ----- Thêm styles cho Loading và Error (có trong JSX nhưng thiếu trong CSS) ----- */
+/* 💬 Loading và Error */
 .loading {
   text-align: center;
   padding: 3rem;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: #555;
 }
 
@@ -107,9 +137,15 @@
   margin: 2rem auto;
   padding: 1.5rem;
   font-size: 1.1rem;
-  color: #d93025; /* Màu đỏ cho lỗi */
-  background-color: #fdf4f3;
-  border: 1px solid #d93025;
-  border-radius: 8px;
+  color: #d93025;
+  background-color: #fff1f0;
+  border: 1px solid #f0b0aa;
+  border-radius: 10px;
   text-align: center;
+}
+
+/* 🎞️ Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

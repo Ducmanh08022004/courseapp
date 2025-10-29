@@ -1,68 +1,120 @@
+
+
 .auth {
-	font-family: Arial, Helvetica, sans-serif;
-	border: 1px solid #ccc;
-	border-radius: 10px;
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);  /* Bóng nhẹ */
-  	background-color: #fff;         /* Nền trắng nổi bật */
-	padding: 28px 28px;
-	box-sizing: border-box;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(222, 0, 165, 0.15);
+  padding: 2.5rem 2.8rem;
+  width: 360px;
+  box-sizing: border-box;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: fadeIn 0.6s ease-out;
 }
+
 .title {
-	box-sizing: border-box;
-	margin: 0 0 16px 0;
-	font-size: 25px;
-	color: rgb(222, 0, 165);
-	text-align: center;
+  margin: 0 0 1.5rem 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: rgb(222, 0, 165);
+  text-align: center;
+  letter-spacing: 0.5px;
 }
+
 .label {
-	margin-bottom: 10px;
-	font-size: 14px;
-	font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #444;
+  display: block;
 }
+
 .input {
-	width: 100%;
-	padding: 10px 12px;
-	font-size: 14px;
-	border: 1px solid #e6e6e6;
-	box-sizing: border-box;
-	margin-bottom: 10px;
-	margin-top: 5px;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  outline: none;
+  background-color: #fafafa;
 }
+
+.input:focus {
+  border-color: rgb(222, 0, 165);
+  box-shadow: 0 0 0 3px rgba(222, 0, 165, 0.2);
+  background-color: #fff;
+}
+
 .buttonRow {
-	margin-top: 8px;
-	display: flex;
-	justify-content: space-between; /* cách đều 2 bên */
-	align-items: center;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
 .subLink {
-	cursor: pointer;
-	color: var(--accent);
-	background: transparent;
-	cursor: pointer;
-	font-weight: 600;
-	color: rgb(222, 0, 165);
-	transition: color 0.5s ease;
-	font-size: 15px;
-	text-decoration: none;
+  color: rgb(222, 0, 165);
+  background: transparent;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.2s ease;
 }
+
 .subLink:hover {
-	color: #b30065;
+  color: #b30065;
+  transform: translateY(-1px);
 }
+
 .btn {
-	cursor: pointer;
-	padding: 10px 16px;
-	border-radius: 6px;
-	border: none;
-	font-weight: 600;
-	background: var(--accent);
-	background-color: rgb(222, 0, 165);
-	color: white;
-	transition: background-color 0.5s ease;
+  cursor: pointer;
+  padding: 0.8rem 1.4rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  background: linear-gradient(135deg, rgb(222, 0, 165), #ff4fc7);
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(222, 0, 165, 0.3);
 }
+
 .btn:hover {
-	color: #b30065;
+  background: linear-gradient(135deg, #ff4fc7, rgb(222, 0, 165));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(222, 0, 165, 0.4);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .auth {
+    width: 90%;
+    padding: 2rem;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .btn, .subLink {
+    font-size: 0.9rem;
+  }
 }
